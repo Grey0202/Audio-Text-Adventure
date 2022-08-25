@@ -1,0 +1,1167 @@
+title: 福尔摩斯探案之斑点带子案
+msgtype: markdown
+variables:
+  [
+    rounds,
+    health,
+    love,
+    proof1,
+    round1,
+    proof2,
+    round2,
+    used1,
+    used2,
+    used3,
+    clues1,
+    clues2,
+  ]
+constants:
+  img1_1: "![PIC](https://www.baidu.com/img/baidu_resultlogo@2.png)"
+  clue1_1: 宅子的布局：[继父的、姐姐的、你以前的]
+  clue1_2: 你姐姐遇害前听到了口哨声和金属哐啷声
+  clue1_3: 暴风雨夜你姐姐遇害时看到的那条带斑点的带子
+  clue2_1: 悬着铃绳但是不响的铃铛
+  clue2_2: 朝向继父房间的通气孔
+  clue2_3: 质感厚重的毯子
+  clue2_4: 被钉死在铃绳旁边的床
+  clue2_5: 金属保险柜
+  clue2_6: 放在保险柜上的一小碟奶
+  clue2_7: 角落里打结的鞭子
+stages:
+  "1.1":
+    chapter: 楔子
+    story: |-
+      > 1883年4月初的一天早晨，华生一觉醒来，便发现夏洛克·福尔摩斯穿的整整齐齐的站在床边。🌁窗外天色湛蓝，🐧几只麻雀上下翻飞。
+      > “抱歉，吵醒你了，华生，”他说，“但你我今早注定这样，先是赫德森太太被敲门声吵醒，接着她报复似的来吵醒我，现在轮到我来吵醒你了。”
+      > “出什么事了？🔥失火了吗？”
+      > “来了一位委托人，是个年轻的女士。你不是对有(漂)趣(亮)的(的)案(女)子(人)很感兴趣吗，不要错过这个机会。”
+
+      请@bot，输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: [goto, calc, calc]
+        param: ["1.2", "health?10:10", "love?10:10"]
+  "1.2":
+    chapter: 楔子
+    story: |-
+      > @sender，对华生来说，他最大的乐趣就是观察福尔摩斯进行调查工作✍️，欣赏他迅速地作出推论。他作出推论之迅速，就好像是单凭直觉；但事实上，他的推论总是建立在逻辑基础之上。
+      > 他匆忙地穿上衣服，然后和福尔摩斯一起来到了楼下的起居室。
+      > 一位女士👩端坐窗前，身穿黑色衣服、蒙着厚厚的头纱。
+      > “早上好，小姐姐。”福尔摩斯虽然母胎单身，但撩妹功夫了得，他叫人端了一杯热咖啡，往炉火里扔了几根柴火。
+
+      请@bot，输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: [goto]
+        param: ["1.3"]
+  "1.3":
+    chapter: 初见
+    story: |-
+      > 那位女士出于害怕和惊恐，脸色苍白、神情沮丧。她的双眼惊慌不安，仿佛正在被🐯狮子追逐的铃鹿。
+      > 她的身材和样貌最多不过30岁，但头发却未老先衰、夹杂着几缕银丝。她的左手袖口溅了些许`泥点`，口袋里有一张露出半截的`车票`。
+
+      @sender，福尔摩斯作出推理，说道: 
+      - **A**: 你昨晚就到了贝克街，怎么隔了一晚才来找我？
+      - **B**: 我知道，你是今天早上坐火车来的
+      - **C**: 小姐，你的眼睛是我见过最美的星空
+    choices:
+      - keywords: [A, a, 昨晚, 昨天]
+        description: |-
+          > “可我是今天早上才来的啊，”这位女士一脸看待傻瓜的眼神，“福尔摩斯先生是不是有点走神了…”
+          > `好感度`-3
+          > 当前好感度: @love
+
+          @sender，福尔摩斯连忙改口说道: 
+          - **A**: *你昨晚就到了贝克街，怎么隔了一晚才来找我？*
+          - **B**: 我知道，你是今天早上坐火车来的
+          - **C**: 小姐，你的眼睛是我见过最美的星空
+        action: calc
+        param: "love-3"
+      - keywords: [B, b, 早上, 今天, 火车]
+        description: ""
+        action: [goto, calc]
+        param: ["1.4", "love+1"]
+      - keywords: [C, c, 星空, 小姐, 爱情, 美, 眼睛, 漂亮]
+        description: |-
+          > “死变态！”这位女士又害怕又生气，转身朝门口走去。
+          > “小姐留步，刚刚那句话是华生说的！”
+          > 虽然很窘迫，但小姐勉强留在了房间里，加上点怒气，脸色反而变得红润些了。
+          > `好感度`-5
+          > 当前好感度: @love
+
+          @sender，为了救场，福尔摩斯接着说:
+          - **A**: 你昨晚就到了贝克街，怎么隔了一晚才来找我？
+          - **B**: 我知道，你是今天早上坐火车来的
+          - **C**: *小姐，你的眼睛是我见过最美的星空*
+        action: calc
+        param: "love-5"
+  "1.4":
+    chapter: 初见
+    story: |-
+      > “这么说，你认识我？”这位女士大为吃惊，她的眼睛困惑而迷恋地注视着福尔摩斯。
+      > `好感度`+1
+      > 当前好感度: @love
+      > “不认识，但我注意到你口袋里有一张💳回程车票的后半截。你一定是很早就动身的，还乘坐过🏇双轮单马车，在崎岖泥泞的路上行驶了一段路程。除了单马车外，其他车辆根本不会这样甩起泥巴。”
+
+      @sender，此外，这位小姐一定坐在车夫的:
+      - **左边👈**
+      - **右边👉**
+      - **车底🚗**
+    choices:
+      - keywords: [左, left]
+        description: |-
+          > “您真的好厉害。”这位女士显得更加佩服了。
+          > 福尔摩斯解释道：“这没什么，因为只有坐在车夫左边，你才会在左手袖口沾到泥巴。”
+          > “下面，请跟我们讲述一下你的遭遇吧。”他说。
+          > `好感度`+2
+          > 当前好感度: @love
+
+          @sender，请输入“继续”阅读下一节剧情: 
+          - **继续**
+        action: calc
+        param: "love+2"
+      - keywords: [右, right]
+        description: |-
+          > “不好意思，我是坐在车夫左边的。”这位女士反驳说。
+          > 福尔摩斯解释道：“那好吧，请你跟我们讲述一下你的遭遇”
+          > `好感度`-1
+          > 当前好感度: @love
+
+          @sender，请输入“继续”阅读下一节剧情: 
+          - **继续**
+        action: calc
+        param: "love-1"
+      - keywords: [底, 上, 下, 东, 西, 南, 北, 前, 后]
+        description: |-
+          > “你说什么！？”这位女士很惊讶，“您疯了吧……”
+          > 福尔摩斯连忙解释，“请别误会，女士，这只是个玩笑……不如请跟我们讲述一下你的遭遇吧。”
+          > `好感度`-2.5
+          > 当前好感度: @love
+
+          @sender，请输入“继续”阅读下一节剧情: 
+          - **继续**
+        action: calc
+        param: "love-2.5"
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "1.5"
+  "1.5":
+    chapter: 讲述
+    story: |-
+      > “我叫海伦·斯托纳，和继父住在一起，他是英国古老的罗伊洛特家族最后一个还活着的人。”她说。
+      > 福尔摩斯点点头，“我很熟悉这个家族，曾经是英国最富有的家族之一，北至伯克郡，西至汉普郡。可是连续四代子嗣都荒淫浪荡、挥霍无度，几乎倾家荡产了。”
+      > “继父在`印度`时娶了我的母亲，她是孟加拉炮兵司令斯托纳少将的年轻遗孀，斯托纳太太。我和`我的姐姐`朱莉亚是孪生姐妹，母亲再婚时，我们才两岁。母亲家里很富有，去世前立下`遗嘱`，那就是在我们结婚后，必须每年给我们每人至少300英镑。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "1.6"
+  "1.6":
+    chapter: 讲述
+    story: |-
+      > “继父喜欢和流浪的`吉卜赛人`混在一起，经常在庄园里接待他们。而且还非常喜欢`印度动物`，目前他有一只🐨印度猎豹和一只🐒狒狒，是一个记者送他的。村民们既害怕它们，也怕它们的主人。”
+      > “我的姐姐死时才30岁，可她早已经两鬓斑白了。朱莉亚订婚后两天，继父知道了这一婚约，但没有表示反对。但婚礼前不到两周时，🕯️她便惨死家中。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: [goto, calc, calc, calc]
+        param: ["1.7", "round1?0:0", "proof1?0:0", 'clues1?"":""']
+  "1.7":
+    chapter: 讲述
+    story: |-
+      > “福尔摩斯先生，请问您还想知道哪方面的细节？”这位女士问道。
+
+      @sender，请为福尔摩斯做出选择（注意，时间有限，请在`4`个回合内获知至少`2`条有效线索）:
+      - **母亲遗产的数额**
+      - **宅子的布局**
+      - **姐姐死前做的事**
+      - **警察的结论**
+      同时，你还能查看已收集的线索:
+      - **查看线索**
+    choices:
+      - keywords: [母亲, 遗产, 数额, 遗嘱, 英镑, 钱]
+        description: |-
+          > “我的母亲有一笔相当可观的财产，由于前夫作为🚀炮兵司令的缘故，每年进账不少于💰1000英镑。”斯托纳小姐慢慢说道。
+          > 这则信息`不是`有效线索。
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr]
+        param: [round1]
+      - keywords: [宅, 房, 屋, 布局, 位置, 方位]
+        description: |-
+          > “我们住的宅子极其古老，只有一侧的耳房还住着人。在这些卧室里，`第一间`时我继父的，`第二间`是我姐姐的，`第三间`时我自己的。这些房间之间彼此互不相通，但房门都朝向一条共同的过道。”斯托纳小姐说，“我讲清楚了吗？”
+          > “十分清楚。”
+          > 这则信息`是`有效线索。
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_1:clues1+"、"+clue1_1']
+      - keywords: [姐姐, 死]
+        description: |-
+          > “姐姐遇害那天晚上，她来我房间讲述了即将举行的婚礼。到了11点钟，她起身回自己房间，但走到门口时她突然担心地问我”，斯托纳小姐说，“她说，‘海伦，夜深人静的时候，你听到过有人吹口哨吗？’”
+          > “‘从来没有。’”斯托纳回答她姐姐。
+          > “‘怎么可能？这几天深夜3点左右，我总能听到轻轻的口哨声，搞不清那声音是哪里来的。’”
+          > 这则信息`是`有效线索。
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+          你有一个`新的`提问选项:
+          - **有关口哨声**
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_2:clues1+"、"+clue1_2']
+      - keywords: [警, 验尸官, 调查, 疑点, 结论]
+        description: |-
+          > “由于我继父在郡里臭名昭著，警察和验尸官都非常认真的调查了这个案子。但是他们找不到任何能让人信服的死因。”斯托纳小姐无奈的说道，“警察敲过墙壁，四周很坚固，发生意外时姐姐也确认独自在房间里，身上也没有暴力痕迹。”
+          > 这则信息`不是`有效线索。
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr]
+        param: [round1]
+      - keywords: [口哨, 声, 吹, 哨]
+        description: |-
+          > “那天晚上，我就一直有大难临头的感觉。那是一个暴风雨之夜，狂风怒吼，雨点噼啪噼啪地打在窗户上。突然，在嘈杂的风雨声中，传来一声女人惊恐的尖叫。那是姐姐的声音，就在我开启房门的时候，我仿佛听到了那样的`口哨声`。停了一会儿，我又听到金属的`哐啷`一声。”斯托纳小姐回忆说。
+          > “姐姐这时正在剧痛地抽搐着，躺在地板上，发出凄厉的呐喊，‘啊，海伦，是那条`带斑点的带子`！’”斯托纳小姐脸色发白地说，“这时继父穿着睡衣匆忙出来，叫来了医生，但此时已经徒劳无功了……”
+          > 这则信息`是`有效线索。
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_3:clues1+"、"+clue1_3']
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues1`
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+        action: none
+  "1.8":
+    chapter: 讲述
+    story: |-
+      > 福尔摩斯总结道：“我们梳理一下关键线索: @clues1。你的思路很清楚，请继续讲述。”
+      > 斯托纳小姐继续说：“最近我也要结婚了，两天前这所房子突然开始修缮。我的卧室被钻出破洞，不得不搬到姐姐丧命的房间里居住。就在昨晚，在我回想姐姐可怕的遭遇时，突然听到了相同的口哨声。我吓得魂不附体，天一亮就来找您了。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "1.9"
+  "1.9":
+    chapter: 讲述
+    story: |-
+      > 好长一阵子，谁都没有说话。福尔摩斯用手托着下巴，凝视着噼啪作响的炉火🔥
+      > 最后，他打破了沉默，“现在虽然细节不多，但却已经刻不容缓。你先回家，我们随后就到。不知能否在你继父不知道的情况下，查看一下这些房间？”
+      > 获得了肯定的答复后，斯托纳小姐放心地离开了，福尔摩斯目送她登上了马车。
+      > 过了半晌，突然响起敲门声。
+
+      @sender，请作出选择:
+      - **开门**
+      - **假装没听到**
+    choices:
+      - keywords: [开门, 打开, open]
+        description: ""
+        action: goto
+        param: "2.1"
+      - keywords: [没, 不, 假装, 闭, close]
+        description: ""
+        action: goto
+        param: "2.2"
+  "2.1":
+    chapter: 闯入
+    story: |-
+      > 福尔摩斯打开🚪门，一个👮彪形大汉堵在门口。穿着古怪，像一个专家，又像个庄稼汉。他凶光毕露的深陷的眼睛和那细长的鹰钩鼻子，看起来活像一只苍老、残忍的猛禽🦅
+      > “哪一位是福尔摩斯？”那位彪形大汉对着华生和福尔摩斯两人问道。
+
+      @sender，福尔摩斯说: 
+      - **是我**
+      - **是他**
+    choices:
+      - keywords: [是, 不, i, am, me, you, he, him]
+        description: ""
+        action: goto
+        param: "2.3"
+  "2.2":
+    chapter: 闯入
+    story: |-
+      > 突然，🚪门被撞开了，一个👮彪形大汉堵在门口。穿着古怪，像一个专家，又像个庄稼汉。他凶光毕露的深陷的眼睛和那细长的鹰钩鼻子，看起来活像一只苍老、残忍的猛禽🦅
+      > “你俩谁他娘的是福尔摩斯？”那位彪形大汉对着华生和福尔摩斯两人吼道。
+
+      @sender，福尔摩斯说: 
+      - **是我**
+      - **是他**
+    choices:
+      - keywords: [是, 不, i, am, me, you, he, him]
+        description: ""
+        action: goto
+        param: "2.3"
+  "2.3":
+    chapter: 闯入
+    story: |-
+      > “我就是罗伊洛特医生，别来这套，我知道我继女刚来过你这，我在跟踪她，她对你们说什么了！”
+      > 福尔摩斯微微一笑。
+      > “我警告你，不要多管闲事。”
+
+      @sender，福尔摩斯接下来:
+      - **继续微笑**
+      - **打他一拳**
+    choices:
+      - keywords: [继续, 微笑, smile]
+        description: ""
+        action: goto
+        param: "2.4"
+      - keywords: [打, 拳, 他, hit]
+        description: ""
+        action: goto
+        param: "2.5"
+  "2.4":
+    chapter: 闯入
+    story: |-
+      > 福尔摩斯更加笑容可掬。
+      > “你这个苏格兰场自命不凡的芝麻官！”看到福尔摩斯不为所动，这个彪形大汉突然害怕了。他甩出一句垃圾话，转身离开了。
+      > “刚刚斯托纳女士提到她继父进城有事要办，我们趁这个机会赶紧去一趟斯托纳女士家里调查一下。”福尔摩斯对华生说。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "3.1"
+  "2.5":
+    chapter: 闯入
+    story: |-
+      > 这个彪形大汉狠狠地挨了福尔摩斯一拳，重重地摔倒在地。
+      > 福尔摩斯掏出手枪，对准了他的额头。
+
+      @sender，请决定:
+      - **开枪**: 为民除害，替天行道
+      - **放走**: 饶人一命，查案要紧
+    choices:
+      - keywords: [开, 枪, 打死, shot]
+        description: ""
+        action: goto
+        param: "10.3"
+      - keywords: [放, 走, leave]
+        description: ""
+        action: goto
+        param: "3.1"
+  "3.1":
+    chapter: 调查
+    story: |-
+      > 那里天气很好，阳光明媚，晴空中白云直飘。这春意盎然的景色和不详事件的调查，形成了鲜明的对照。
+      > “对面就是罗伊洛特医生的房子了，斯托纳小姐就在前面，她继父还没回来，我们快过去吧。”福尔摩斯说道。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: "> 目前只做完了前两章哟～"
+        action: [goto, calc, calc, calc, calc, calc, calc]
+        param:
+          [
+            "3.2",
+            "used1?0:0",
+            "used2?4:4",
+            "used3?0:0",
+            "proof2?0:0",
+            "round2?0:0",
+            'clues2?"":""',
+          ]
+  "3.2":
+    chapter: 调查
+    story: |-
+      > “现在我们必须抓紧时间，请马上带我们去需要检查的房间。”福尔摩斯对斯托纳小姐说。
+
+      @sender，请输入“观察房间”:
+      - **观察房间**
+    choices:
+      - keywords: [观察, 房间, 看, 继续, 下一步, jixu, continue, next, watch]
+        description: ""
+        action: goto
+        param: "3.3"
+  "3.3":
+    chapter: 走廊
+    story: |-
+      > 这座🏠宅邸是灰色石头砌成的，石壁上布满青苔。两侧是弧形的边房，像一对蟹钳似的。一侧边房已经荒废残破，只有另一侧边房可住人了。
+      > 福尔摩斯看向这排边房，“我想，这是⏳你过去的房间，当中是你👩姐姐的房间，挨着主楼的就是你🚑继父罗伊洛特医生的房间吧。”
+      > 他看了看表，说：“罗伊洛特医生就快回来，线索应该只存在其中`两个房间`里。”
+
+      @sender，请选择要检查的房间:
+      - **A**: 斯托纳小姐过去的房间
+      - **B**: 她姐姐死去的房间，也是她现在住的房间
+      - **C**: 罗伊洛特医生的房间
+    choices:
+      - keywords: [A, a, 斯托纳, 小姐]
+        description: ""
+        action: goto
+        param: "3.5"
+      - keywords: [B, b, 姐姐, 现在, 死去]
+        description: ""
+        action: goto
+        param: "3.6"
+      - keywords: [C, c, 医生, 继父, 罗伊, 先生]
+        description: ""
+        action: goto
+        param: "3.7"
+  "3.4":
+    chapter: 走廊
+    story: |-
+      > 站在走廊，“看来离真相还有段距离”，福尔摩斯沉思着，👀眼睛时而充满光芒，时而变得灰暗。
+      > “大概还可以再🔍检查一下四周吧。”他想。
+      > 线索数: `@proof2/7`
+      > 行动数: `@round2/10`
+      > (*检查物品*会增加行动数，但*切换房间*不增加行动数)
+
+      @sender，请选择要检查的房间:
+      - **A**: 斯托纳小姐过去的房间
+      - **B**: 她姐姐死去的房间，也是她现在住的房间
+      - **C**: 罗伊洛特医生的房间
+      同时，你还能查看已收集的线索:
+      - **查看线索**
+    choices:
+      - keywords: [A, a, 斯托纳, 小姐]
+        description: ""
+        action: goto
+        param: "3.5"
+      - keywords: [B, b, 姐姐, 现在, 死去]
+        description: ""
+        action: goto
+        param: "3.6"
+      - keywords: [C, c, 医生, 继父, 罗伊, 先生]
+        description: ""
+        action: goto
+        param: "3.7"
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前线索数: `@proof2/7`，当前回合数: `@round2/10`
+
+          @sender，请选择要检查的房间:
+          - **A**: 斯托纳小姐过去的房间
+          - **B**: 她姐姐死去的房间，也是她现在住的房间
+          - **C**: 罗伊洛特医生的房间
+        action: none
+  "3.5":
+    chapter: 斯托纳的房间
+    story: |-
+      > 斯托纳小姐过去的房间，位于别墅耳房的最远端。进门之后，扑面而来装修的粉尘味。
+      > 有一个开口式的壁炉，铁质的百叶窗，天花板上的吊灯看起来摇摇欲坠。
+      > 线索数: `@proof2/7`
+      > 回合数: `@round2/10`
+
+      @sender，请选择要检查或进行的动作:
+      - 检查**吊灯**
+      - 检查**炉子**
+      - 检查**百叶窗**
+      - <font color="warning">查看</font>**线索**
+      - <font color="warning">返回</font>**走廊**
+    choices:
+      - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
+        description: ""
+        action: goto
+        param: "3.4"
+      - keywords: [吊灯, 灯, lamp]
+        description: |-
+          > 一个很普通的吊灯
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr]
+        param: [round2]
+      - keywords: [炉子, 炉, kindle]
+        description: |-
+          > 外面已然是春天，这个炉子许久不用了，沾了一层烟灰都没有清理。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr]
+        param: [round2]
+      - keywords: [百叶窗, 窗, window]
+        description: |-
+          > 福尔摩斯把百叶窗关上，试了各种办法都无法打开。合叶是铁质的，牢牢地嵌在坚硬的石墙上。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr]
+        param: [round2]
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前线索数: `@proof2/7`，当前回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">返回</font>**走廊**
+        action: none
+  "3.6":
+    chapter: 姐姐的房间
+    story: |-
+      > “斯托纳小姐原来的房间并不值得浪费🕙时间检查。”福尔摩斯径直走向姐姐的房间，也就是斯托纳小姐现在住的房间。
+      > 这个房间有低低的天花板和四方形的威尔顿地毯。一角放着褐色橱柜，另一角摆着一张窄窄的🛏️床。四周的地板褪了色，显得十分古老。
+      > 福尔摩斯搬了把💺椅子坐在墙角，默默地、前前后后、上上下下地不停看着。
+      > 线索数: `@proof2/7`
+      > 回合数: `@round2/10`
+
+      @sender，请选择要检查或进行的动作:
+      - 检查**铃铛**
+      - 检查**地毯**
+      - 检查**橱柜**
+      - 检查**床**
+      - <font color="warning">查看</font>**线索**
+      - <font color="warning">返回</font>**走廊**
+    choices:
+      - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
+        description: ""
+        action: goto
+        param: "3.4"
+      - keywords: [铃铛, 铃, ring]
+        description: |-
+          > 悬挂在床边有一根粗粗的🔔铃拉绳，但福尔摩斯猛的一拉，却发现铃铛`不响`。
+          > “没必要在这里安装这么好的一根铃绳。”福尔摩斯趴了下来，发现铃绳的尾端，有一个不起眼的`通气孔`。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+          你有一个`新的`提问选项:
+          - 检查**通气孔**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_1:clues2+"、"+clue2_1']
+      - keywords: [通气孔, 孔, 小孔, 洞, hool]
+        description: |-
+          > “非常奇怪！”福尔摩斯拉着铃绳喃喃地说，“这个房间有两个十分特别的地方，一个是不响的铃铛，另一个是朝向隔壁的`通气孔`；花费同样的功夫，就能让它通向户外的。”
+          > “我记得铃铛和通气孔都是姐姐结婚前，继父定做的，你看，通气孔就通往他那边的房间。”斯托纳小姐说。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_2:clues2+"、"+clue2_2']
+      - keywords: [地毯, 毯, 布, kindle]
+        description: |-
+          > 这块褐色的地毯毛绒很厚，踩在上面非常舒服。如果是细小的东西落在地毯上，或是一只小虫，都`很难发现`。
+          > “大概是家族唯一遗留下来、功能还不减当年的物件了吧。”福尔摩斯环顾破旧的四周说道。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_3:clues2+"、"+clue2_3']
+      - keywords: [床, 铺盖, 被子, bed]
+        description: |-
+          > 看起来是一张很普通的床，只是有点窄。但福尔摩斯尝试移动这张床，却发现推不动。仔细一看，这张床被螺钉`固定`再了地板上。
+          > “福尔摩斯，我似乎隐约感到你正在揭露和暗示一项可怕的罪行。”华生说。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_4:clues2+"、"+clue2_4']
+      - keywords: [橱柜, 柜, 橱, bed]
+        description: |-
+          > 福尔摩斯打开柜子，里面都是女人日常用的东西，看不出什么异常。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr]
+        param: [round2]
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前线索数: `@proof2/7`，当前回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">返回</font>**走廊**
+        action: none
+  "3.7":
+    chapter: 继父的房间
+    story: |-
+      > 与继女的房间相比，罗伊洛特医生的房间较为宽敞，但陈设同样简朴。一张行军床，一个摆满书的书架。一张圆桌，一个大铁保险柜，大概就是一眼能看到的全部了。
+      > 线索数: `@proof2/7`
+      > 回合数: `@round2/10`
+
+      @sender，请选择要检查或进行的动作:
+      - 检查**保险柜**
+      - 检查**书架**
+      - 检查**角落**
+      - <font color="warning">查看</font>**线索**
+      - <font color="warning">返回</font>**走廊**
+    choices:
+      - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
+        description: ""
+        action: goto
+        param: "3.4"
+      - keywords: [保险柜, 柜, 保险, ring]
+        description: |-
+          > 福尔摩斯敲敲保险柜问道：“你知道里面装的什么吗？”
+          > “我继父业务上的文件。”
+          > “这么说你看过？里面难道不会是一只猫什么的？”
+          > “不会啊，你这想法可真奇怪”
+          > 正说着，福尔摩斯从保险柜上拿起一个`盛奶的碟子`。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**保险柜**
+          - 检查**书架**
+          - 检查**角落**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+          你有一个`新的`提问选项:
+          - 检查**盛奶的碟子**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_5:clues2+"、"+clue2_5']
+      - keywords: [奶, 碟, 盘, hool]
+        description: |-
+          > “可是，我们家没养猫啊，我继父倒是有一只印度猎豹和狒狒”斯托纳小姐说。
+          > 福尔摩斯答道：“的确，以一只猎豹的`体型`，一碟奶恐怕不够的。”
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**保险柜**
+          - 检查**书架**
+          - 检查**角落**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_6:clues2+"、"+clue2_6']
+      - keywords: [书, 架, shelf]
+        description: |-
+          > 继父的书架上，摆的大多是技术性的书籍。
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**保险柜**
+          - 检查**书架**
+          - 检查**角落**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr]
+        param: [round2]
+      - keywords: [角落, corner]
+        description: |-
+          > 福尔摩斯转过身，悬挂在床头的一根`小鞭子`引起了他的注意。这跟鞭子卷着，而且打成了结，似乎是为了让鞭绳盘成一个圈。
+          > 华生问：“那只不过一根普通的鞭子，为什么要打结呢？”
+          > 线索数: `@proof2/7`
+          > 回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**保险柜**
+          - 检查**书架**
+          - 检查**角落**
+          - <font color="warning">查看</font>**线索**
+          - <font color="warning">返回</font>**走廊**
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_7:clues2+"、"+clue2_7']
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前线索数: `@proof2/7`，当前回合数: `@round2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**保险柜**
+          - 检查**书架**
+          - 检查**角落**
+          - <font color="warning">返回</font>**走廊**
+        action: none
+  "3.8":
+    chapter: 调查
+    story: |-
+      > 福尔摩斯拼命思考着这`@proof2`条线索，感觉🧩拼图就快完整起来了。
+      > 当前线索: `@clues2`
+
+      @sender，请问你知道真相了吗？
+      - **我明白了**: 真相永远只有一个！
+      - **我再看看**: 求稳，搜寻剩下的线索(推荐)
+    choices:
+      - keywords:
+          [明白, 可以, 知道, 真相, 一个, knew, know, got, get, underst, yes]
+        description: ""
+        action: goto
+        param: "3.9"
+      - keywords:
+          [
+            再,
+            想想,
+            看看,
+            等,
+            算,
+            不,
+            没,
+            别,
+            待会,
+            剩下,
+            继续,
+            搜寻,
+            稳,
+            wait,
+            no,
+          ]
+        description: ""
+        action: goto
+        param: "3.4"
+  "3.9":
+    chapter: 调查
+    story: |-
+      > 有那么一瞬，福尔摩斯看起来似乎知道了真相。
+      > 斯托纳女士问道：“果然我姐姐不是死于自杀的吗？”
+      > 福尔摩斯回答：“你的姐姐一定是……”
+
+      @sender，请回答:
+      - **自杀**
+      - **他杀**
+    choices:
+      - keywords: [自杀, 自己, self]
+        description: |-
+          > “怎么可能？”斯托纳女士质疑道，“我都(裤)请(子)你(都)来(脱)了(了)你给我看这个？”
+          > “请原谅我的玩笑，其实你姐姐是…”福尔摩斯解释道。
+          > 好感度-1
+          > 当前好感度: @love
+
+          @sender，请回答:
+          - **他杀**
+        action: decr
+        param: love
+      - keywords: [他杀, 她杀, other]
+        description: ""
+        action: goto
+        param: "3.10"
+  "3.10":
+    chapter: 调查
+    story: |-
+      > 就像闪电⚡️划过一般，所有这`@proof2`条线索连成了一条线。
+      > `“@clues2……”`
+      > “那我姐姐是怎么死的？”斯托纳女士问道。
+
+      @sender，福尔摩斯只答了一个字: 
+      ⚠️注意: 严肃的推理不是选择题，而是填空题。请仔细分析线索，然后谨慎作答。
+    choices:
+      - keywords: [蛇, 毛毛虫, snake]
+        description: ""
+        action: goto
+        param: "3.11"
+      - keywords: [豹, 狒, 人, 毒, 动物, 病, 咬, animal]
+        description: |-
+          > ❌答案错误，但已经很接近了，再多给一次机会，加油～
+          > 剩余尝试次数: `@used2`
+
+          @sender，请问姐姐的`死因`的真相是(一个字):
+        action: none
+      - keywords: [作弊, 偷懒, 提示, 帮助, cheat, help]
+        description: |-
+          > 监测到作弊行为，作弊可耻，但有用！
+          > 机会数➕1⃣️
+          > 剩余尝试次数: `@used2`
+          > 提示: 是一种极其`危险`的动物，而且与一门`编程语言`相关
+
+          @sender，请问姐姐的`死因`的真相是(一个字):
+        action: incr
+        param: used2
+      - keywords: [一个字, one, word]
+        description: |-
+          > ❌答案错误，机会有限，请不要抖机灵啊喂～
+          > 剩余尝试次数: `@used2`
+
+          @sender，请问姐姐的`死因`的真相是(一个字):
+        action: decr
+        param: used2
+      - keywords: []
+        description: |-
+          > ❌答案错误，请重新思考。
+          > 剩余尝试次数: `@used2`
+
+          @sender，请问姐姐的`死因`的真相是(一个字):
+        action: decr
+        param: used2
+  "3.11":
+    chapter: 调查
+    story: |-
+      > “天呐！真相竟然是这样。”斯托纳女士受到了惊吓。
+      > “别怕，我教你如何去做。”福尔摩斯安抚她说。
+
+      @sender，请输入“继续”阅读下一章剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.1"
+  "3.12":
+    chapter: 调查
+    story: |-
+      > “我虽知道答案，`但是`为了你的安全，暂时先不告诉你。”福尔摩斯解释道，“不用怕，今晚你按我说的来做。”
+
+      @sender，请输入“继续”阅读下一章剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.1"
+  "4.1":
+    chapter: 至暗时刻
+    story: |-
+      > 福尔摩斯为斯托纳女士谋划说：“你继父回来时，一定要假装头疼，把自己关在房间里。夜深后，必须打开百叶窗，把灯摆在那儿作为信号。随后带上铺盖悄悄溜到你以前的房间，虽然在修缮，但过一夜应该问题不大。其余的事情你就不要管了。”
+      > “可是，你们打算怎么办呢？”
+      > “我们要在你的卧室过夜，调查打扰你的口哨声的来源。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.2"
+  "4.2":
+    chapter: 至暗时刻
+    story: |-
+      > 福尔摩斯和华生在一个旅馆中守候着，大约9点钟的时候，周遭的灯光熄灭了，庄园里一片漆黑。
+      > 两个小时缓慢地过去了，就在时钟敲响11点的时候，他们的正前方出现了一盏明亮的灯。
+      > “我们走，”福尔摩斯说，“华生，带上手枪。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.3"
+  "4.3":
+    chapter: 至暗时刻
+    story: |-
+      > 两人在漆黑如铁的房间里，一直缄默地等候着。每刻钟都仿佛无限漫长。
+      > 突然，从通气孔方向闪来一道转瞬即逝的亮光。接着，是另一种声音，就像烧开水壶的嘶嘶声。
+      > 福尔摩斯在听到口哨声的瞬间，拿起了他带来的藤编，猛烈的抽打起来…
+
+      @sender，请选择动作(注意，这一选择`至关重要`):
+      - 抽打**铃绳**: 🔔悬在床边的绳子
+      - 抽打**门把手**: 🚪光滑的门把手
+      - 抽打**地毯**: 📜柔软的地毯
+    choices:
+      - keywords: [铃, 绳, 床, ring]
+        description: ""
+        action: goto
+        param: "4.4"
+      - keywords: [门, 把, 手, 毯, door]
+        description: ""
+        action: goto
+        param: "10.4"
+  "4.4":
+    chapter: 至暗时刻
+    story: |-
+      > “看见了没有，华生？”他大声地嚷着，“看见了没有！”
+      > 我看不清福尔摩斯拼命抽打的是什么东西，但我却看到，他的脸死一样的苍白，满脸恐怖和憎恶的表情。
+      > 他停下了抽打，眼睛怒视着通气孔。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.5"
+  "4.5":
+    chapter: 至暗时刻
+    story: |-
+      > 紧接着，在黑夜的寂静中，突然爆发出一声我此前从未听到过的凄厉尖叫。那叫声越来越高，交织着痛苦、恐惧和愤怒，让人不寒而栗。
+      > “一切都结束了。”福尔摩斯说，“该走了，我们先去哪个房间？”
+
+      @sender，请决定要去的房间:
+      - **继父**的房间
+      - **斯托纳小姐**的房间
+    choices:
+      - keywords: [继父, 父, father, jifu]
+        description: ""
+        action: goto
+        param: "4.6"
+      - keywords: [斯托纳, 姐, 小, sister, girl, sit]
+        description: ""
+        action: goto
+        param: "4.7"
+  "4.6":
+    chapter: 光明
+    story: |-
+      > 福尔摩斯转动门把手，进入继父的房间。
+      > 罗伊洛特医生披着一件长长的睡衣，横躺在木椅上，他的下巴向上翘起，眼睛恐怖地、僵直地盯着天花板角落的通气孔。
+      > 他的头上缠着一条异样的、带有褐色斑点的带子，这是一条印度蝰蛇。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.8"
+  "4.7":
+    chapter: 光明
+    story: |-
+      > 福尔摩斯对斯托纳小姐说：“到这来吧，一切都结束了。”
+      > 三人一起来到她继父的房间，罗伊洛特医生披着一件长长的睡衣，横躺在木椅上，他的下巴向上翘起，眼睛恐怖地、僵直地盯着天花板角落的通气孔。
+      > 他的头上缠着一条异样的、带有褐色斑点的带子，这是一条印度蝰蛇。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.9"
+  "4.8":
+    chapter: 光明
+    story: |-
+      > 此时斯托纳小姐也闻声进来，看到眼前的一幕，一切都真相大白。
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.9"
+  "4.9":
+    chapter: 谢幕
+    story: |-
+      > 第二天早上，安顿好斯托纳小姐、跟警方交待完情况后，福尔摩斯和华生二人踏上了回城的路。
+      > “多么狠毒的继父，我在看到绳铃和通气孔的时候，就不免怀疑。当发现📦保险柜和那碟🥛牛奶，并和口哨和金属哐啷声结合起来之后，才发现这个可怕的事实。原来医生一直在训练🐍毒蛇。”
+      > “所以你狠狠的抽打绳铃，其实是在抽打这条蛇，于是它从通气孔钻了回去。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.10"
+  "4.10":
+    chapter: 谢幕
+    story: |-
+      > “对，结果还引起它💢愤怒地咬死了它看到的第一个人。这样看来，我无疑要对罗伊洛特医生的死负间接责任。但凭良心说，我是不大可能因此而感到内疚的。”
+
+      @sender，请输入“继续”阅读下一节剧情: 
+      - **继续**
+    choices:
+      - keywords: [继续, 下一步, jixu, continue, next]
+        description: ""
+        action: goto
+        param: "4.11"
+  "4.11":
+    chapter: 致谢
+    story: |-
+      > 感谢您的游玩，请联系`@pixelcao`反馈游玩体验，欢迎拍砖🧱
+      > 回合数总计: `@rounds`
+
+      @sender，您可以输入“重置”重新游玩: 
+      - **重置**
+    choices: {}
+  "10.1":
+    chapter: Game Over
+    story: |-
+      > 由于❤️好感度降到了 `@love`，这位女士决定不委托福尔摩斯先生来解决案子了。
+      > 并且由于你的所作所为，福尔摩斯先生的声望在贝克街每况愈下，最终决定搬离贝克街13号……
+      > 回合数总计: `@rounds`
+
+      @sender，请输入“重置”来重新开始吧🌝
+      - **重置**
+    choices: {}
+  "10.2":
+    chapter: Game Over
+    story: |-
+      > 就在谈话间，斯托纳女士的继父突然破门而入，看到房间里的继女、夏洛克和华生，连开三枪🔫
+      > 调查中止，当前回合数: @round1，当前线索数: @proof1
+      > 回合数总计: `@rounds`
+
+      @sender，请输入“重置”来重新开始吧🌝
+      - **重置**
+    choices: {}
+  "10.3":
+    chapter: Game Over
+    story: |-
+      > 砰地一声，罗伊洛特的脑袋炸开了花。此时，贝克街上过往的路人慌张的找来警察👮‍♀️
+      > 福尔摩斯和华生一起被抓了起来，虽然斯托纳小姐安然无恙，但福尔摩斯再也不能继续探案之路了……
+      > 回合数总计: `@rounds`
+
+      @sender，请输入“重置”来重新开始吧🌝
+      - **重置**
+    choices: {}
+  "10.4":
+    chapter: Game Over
+    story: |-
+      > 嘶嘶声变强了，福尔摩斯突然发出惨叫，被什么东西咬中了胳膊。不到10秒，就躺在地上、一动不动了。
+      > 面对破门而入的继父，华生扣下了扳机，救下了隔壁的斯托纳小姐。
+      > 此时，他才发现，地上游走的斑点带子，实际上是一条狠毒的印度蝰蛇。
+      > 回合数总计: `@rounds`
+
+      @sender，请输入“重置”来重新开始吧🌝
+      - **重置**
+    choices: {}
+dynamics:
+  - conditions:
+      chapter: "*"
+      expression: love <= 0
+    action: goto
+    param: "10.1"
+  - conditions:
+      chapter: "1.*"
+      expression: round1 > 3 && proof1 < 2
+    action: goto
+    param: "10.2"
+  - conditions:
+      chapter: "1.*"
+      expression: round1 > 3 && proof1 >= 2
+    action: [goto, calc, calc]
+    param: ["1.8", "round1?0:0", "proof1?0:0"]
+  - conditions:
+      chapter: "3.*"
+      expression: proof2 >= 5 && round2 < 10 && used1 == 0
+    action: [goto, incr]
+    param: ["3.8", "used1"]
+  - conditions:
+      chapter: "3.*"
+      expression: (proof2 >= 7 || round2 >= 10) && used3 == 0
+    action: [goto, incr]
+    param: ["3.10", "used3"]
+  - conditions:
+      chapter: "3.*"
+      expression: used2 <= 0
+    action: [goto, calc]
+    param: ["3.12", "used2?999:999"]
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助, 怎么玩, 你是谁]
+    action: none
+    description: |-
+      > @sender，欢迎来到`@title`，这是一个`文字冒险游戏`，你通过输入`动作`或`指令`来推进剧情、获取帮助。
+      > 一百多年来，《福尔摩斯探案集》📖被翻译成57种文字，畅销不衰，🎬衍生电影超过200部。
+      > 《斑点带子案》作为二葱记忆深刻的一则短篇，有着离奇的剧情、阴森的氛围、意料之外的结局。
+      > 现在，让我们以bot的形式，进入19世纪的英国，自己就是福尔摩斯，试试看你的决策，会把案子带到怎样的🧭方向。
+      > 每个人都有`独立的进度和存档`，建议拉到小群中调戏和游玩呢😄
+
+      游戏基本操作如下: 
+      - **继续游戏**: 直接@我即可
+      - **开始游戏**: start
+      - **帮助**: help、man
+      - **提示**: hint
+      - **重置**: reset
+  - conditions:
+      chapter: "*"
+      keywords: [hint, 提示]
+    action: none
+    description: "@sender，本小节没有提示😂"
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start, 重置, 回到开始, 重新开始, 开始游戏]
+    action: reset
+    description: "重置章节"
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: |-
+      > 福尔摩斯愣了一下，感觉自己像个被傻几操控的提线布偶🌚🌝
+
+      @sender，请@我，输入“帮助”以获取游玩方法:
+      - **帮助**
