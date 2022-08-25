@@ -1,34 +1,53 @@
+import { senderTemplate, titleTemplate, emptyChapter, emptyChapter_CN, emptyStoryMsg, outputTemplate, matchChapterErr } from "./templatePreDefines.js"
+
 var script = undefined
 var storyMode = false
 
-// 显示章节剧情
 function displayStage(stage, player, vars) {
     var story = stage == undefined ? "该小节没有故事" : stage.story
     return displayCustom(stage, story, player, vars)
 }
 
-// 显示自定内容
-function displayCustom(stage, defmsg, player, vars) {
-    defmsg = defmsg.replace("@sender", "@" + player).replace("@title", script.title)
-    Object.keys(vars).forEach(function (key) {
-        defmsg = defmsg.replace("@" + key, vars[key])
-    })
-    Object.keys(script.constants).forEach(function (key) {
-        defmsg = defmsg.replace("@" + key, script.constants[key])
-    })
-    var template = '#### [title]\n\n[story]\n'
-    var output = template.replace("[title]", stage == undefined ? "未知章节" : stage.chapter).replace("[story]", defmsg)
+function displayCustom(stage, unprocStory, player, vars) {
+
+    // Debug
+    // console.log("[DEBUG] story ::::: in displayCustom func")
+    // console.log("stage\n", stage)
+    // console.log("\n\n\ndefmsg\n", unprocStory)
+    // console.log('\n\n\n\n\ndebug\n',stage,unprocStory)
+    var output = outputTemplate
+
+    if (stage!=undefined) {
+        // unprocStory = stage.story
+        unprocStory = unprocStory.replace(senderTemplate, "@" + player)
+                                 .replace(titleTemplate, script.title)
+
+        // Replace the variables
+        // TODO: Revise this part to avoid wrong-extraction.
+        Object.keys(vars).forEach(function (key) {
+                unprocStory = unprocStory.replace("@" + key, vars[key])
+        })
+        Object.keys(script.constants).forEach(function (key) {
+                unprocStory = unprocStory.replace("@" + key, script.constants[key])
+        })
+
+        output = output
+                .replace(emptyChapter, stage.chapter)
+                .replace(emptyStoryMsg, unprocStory)
+    }
+
     return output
 }
 
-// Chapter & Condition Match
+
+//! Chapter & Condition Match, should be only used at chapter part.
 // "1.1" == "1.1"
 // "2.2" == "2.*"
 function chapterMatch(source, target) {
     // Source is the 
     if (source == undefined || source.trim() == "*") {
         return true
-    } else if (source.contain(".*") != -1) {
+    } else if (source.indexOf(".*") != -1) {
         source = source.replace(".*", "").trim()
         var sourceNum = Number(source)
         var targetNum = Number(target)
@@ -219,7 +238,7 @@ function proceed(stage, input, chapter, vars) {
         if (target == -1) {
             return {
                 chapter: chapter,
-                output: "No match stage/chapter, please check the game tree.",
+                output: matchChapterErr,
                 variables: vars
             }
         }
@@ -242,9 +261,11 @@ function play(input, profile, scriptObj) {
     var chapterAfter = chapter
     var outputText = []
     var stage = script.stages[chapter]
+    var chapterStory = ""
     if (String(input).trim() == "") {
         // Show the Plot of Play
-        outputText.push(displayStage(stage, player, vars))
+        chapterStory = (stage == undefined ? emptyStoryMsg : stage.story);
+        outputText.push(displayCustom(stage,chapterStory, player, vars))
 
     } else {
         // Process the input
@@ -258,7 +279,8 @@ function play(input, profile, scriptObj) {
             outputText.push(displayCustom(stage, result.output.join('\n'), player, vars))
         } 
         if (result.output.length == 0 || result.chapter != chapter) {
-            outputText.push(displayStage(stageToShow, player, vars))
+            chapterStory = (stageToShow == undefined ? emptyStoryMsg : stageToShow.story);
+            outputText.push(displayCustom(stageToShow,chapterStory, player, vars))
         }
     }
 
@@ -269,4 +291,4 @@ function play(input, profile, scriptObj) {
     }
 }
 
-module.exports = play
+export {play}

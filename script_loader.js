@@ -1,6 +1,6 @@
-const fs = require('fs')
-const yaml = require('yamljs')
-const path = require('path')
+import * as fs from 'fs';
+import YAML from 'yamljs';
+import * as path from 'path';
 
 function loadScript(fileName) {
     var fullPath = path.join(path.resolve('./'), fileName)
@@ -10,7 +10,7 @@ function loadScript(fileName) {
         return undefined
     }
     try {
-        var script = yaml.parse(fs.readFileSync(fullPath).toString())
+        var script = YAML.parse(fs.readFileSync(fullPath).toString())
         return script
     } catch (e) {
         console.error("[DEBUG] script parse failed", e)
@@ -18,4 +18,4 @@ function loadScript(fileName) {
     }
 }
 
-module.exports = loadScript
+export {loadScript}

@@ -1,12 +1,14 @@
-const { NONAME } = require('dns')
-const http = require('http')
+// const { NONAME } = require('dns')
+import * as http from 'http'
+import {loadScript} from './script_loader.js'
+import * as save from './save_offline.js'
+import {play} from './play.js'
+import * as fs from 'fs'
 
-const loadScript = require('./script_loader')
-const save = require("./save_offline")
-const play = require("./play")
-const fs = require('fs')
+
+
+// local variables
 const path = "./scripts/"
-
 const hostname = '127.0.0.1'
 const port = 1890
 
@@ -58,7 +60,7 @@ for (var i in readDir) {
 
 // Todo: return scriptList to front end
 // while (true) {
-	scriptUse = scriptList[2]
+	var scriptUse = scriptList[3]
 	var script = loadScript(path+scriptUse)
 	if (!script) {
 		console.error("Failed to load script!")
