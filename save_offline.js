@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import YAML from 'yamljs';
+import yaml from 'js-yaml';
 import * as path from 'path';
 
 function loadFromDisk(fileName) {
@@ -7,13 +7,13 @@ function loadFromDisk(fileName) {
     if (!fs.existsSync(filename)) {
         return undefined
     }
-    var sve = YAML.parse(fs.readFileSync(filename).toString())
+    var sve = yaml.load(fs.readFileSync(filename).toString())
     return sve
 }
 
 function saveToDisk(fileName, progress) {
     // console.log("[DEBUG] saving to:", fileName)
-    fs.writeFileSync(path.join(path.resolve('./'), fileName), YAML.stringify(progress))
+    fs.writeFileSync(path.join(path.resolve('./'), fileName), yaml.dump(progress))
 }
 
 export {loadFromDisk, saveToDisk}

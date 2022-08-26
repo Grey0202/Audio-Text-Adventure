@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import YAML from 'yamljs';
+import yaml from 'js-yaml';
 import * as path from 'path';
 
 function loadScript(fileName) {
@@ -10,7 +10,7 @@ function loadScript(fileName) {
         return undefined
     }
     try {
-        var script = YAML.parse(fs.readFileSync(fullPath).toString())
+        var script = yaml.load(fs.readFileSync(fullPath).toString())
         return script
     } catch (e) {
         console.error("[DEBUG] script parse failed", e)

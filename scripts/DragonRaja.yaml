@@ -1,15 +1,17 @@
 title: DragonRaja
+APcombined: True
 variables:
-  # [rounds, validrounds, totalrounds, grams, totalgrams, score, details, used1, lastone]
+   [rounds, validrounds, totalrounds, grams, totalgrams, score, details, used1, lastone]
 constants:
   remark: 
 stages:
-  "1.0":
+  "1.1":
     chapter: 
     story: |- 
       > Welcome to the A&T Adventure! You can use the Audio Button or Input Bar at the website.
       >
-      > This sctript is based on the serializing fantasy novels - Dragon Raja written by Nan Jiang.
+      > This script is based on the serializing fantasy novels - Dragon Raja written by Nan Jiang.
+      > (The purpose of this script is just for study and present my dissertation, do not use this script for any other purpose.)
       >
       > Now, you can tring to type [continue] or [go on] or press the record button to start the game.
       >
