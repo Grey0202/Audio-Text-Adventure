@@ -1,12 +1,7 @@
-import { senderTemplate, titleTemplate, emptyChapter, emptyChapter_CN, emptyStoryMsg, outputTemplate, matchChapterErr } from "./templatePreDefines.js"
+import * as tpd from "./templatePreDefines.js"
 
 var script = undefined
 var storyMode = false
-
-function displayStage(stage, player, vars) {
-    var story = stage == undefined ? "该小节没有故事" : stage.story
-    return displayCustom(stage, story, player, vars)
-}
 
 function displayCustom(stage, unprocStory, player, vars) {
 
@@ -15,12 +10,12 @@ function displayCustom(stage, unprocStory, player, vars) {
     // console.log("stage\n", stage)
     // console.log("\n\n\ndefmsg\n", unprocStory)
     // console.log('\n\n\n\n\ndebug\n',stage,unprocStory)
-    var output = outputTemplate
+    var output = tpd.outputTemplate
 
     if (stage!=undefined) {
         // unprocStory = stage.story
-        unprocStory = unprocStory.replace(senderTemplate, "@" + player)
-                                 .replace(titleTemplate, script.title)
+        unprocStory = unprocStory.replace(tpd.senderTemplate, "@" + player)
+                                 .replace(tpd.titleTemplate, script.title)
 
         // Replace the variables
         // TODO: Revise this part to avoid wrong-extraction.
@@ -31,9 +26,8 @@ function displayCustom(stage, unprocStory, player, vars) {
                 unprocStory = unprocStory.replace("@" + key, script.constants[key])
         })
 
-        output = output
-                .replace(emptyChapter, stage.chapter)
-                .replace(emptyStoryMsg, unprocStory)
+        output = output.replace(tpd.emptyChapter, stage.chapter)
+                        .replace(tpd.emptyStoryMsg, unprocStory)
     }
 
     return output
@@ -101,15 +95,14 @@ function proceed(stage, input, chapter, vars) {
             }
             return evalRet
         }
-        // 执行该选项的行动
+        // Execute the actions for the choice.
         var execute = function (choice) {
             var varChanged = false
             // action 可以是 list(一组动作)、string(单个动作)
             // param 的类型和长度要和 action 保持一致
             var actionSet, paramSet
             if (typeof choice.action == "string") {
-                actionSet = [choice.action]
-                paramSet = [String(choice.param)]
+                console.error("Unprocessed [string] action type")
             } else if (typeof choice.action == "object" &&
                 choice.action instanceof Array == true) {
                 actionSet = choice.action
@@ -238,7 +231,7 @@ function proceed(stage, input, chapter, vars) {
         if (target == -1) {
             return {
                 chapter: chapter,
-                output: matchChapterErr,
+                output: tpd.matchChapterErr,
                 variables: vars
             }
         }
@@ -264,7 +257,7 @@ function play(input, profile, scriptObj) {
     var chapterStory = ""
     if (String(input).trim() == "") {
         // Show the Plot of Play
-        chapterStory = (stage == undefined ? emptyStoryMsg : stage.story);
+        chapterStory = (stage == undefined ? tpd.emptyStoryMsg : stage.story);
         outputText.push(displayCustom(stage,chapterStory, player, vars))
 
     } else {
@@ -279,7 +272,7 @@ function play(input, profile, scriptObj) {
             outputText.push(displayCustom(stage, result.output.join('\n'), player, vars))
         } 
         if (result.output.length == 0 || result.chapter != chapter) {
-            chapterStory = (stageToShow == undefined ? emptyStoryMsg : stageToShow.story);
+            chapterStory = (stageToShow == undefined ? tpd.emptyStoryMsg : stageToShow.story);
             outputText.push(displayCustom(stageToShow,chapterStory, player, vars))
         }
     }

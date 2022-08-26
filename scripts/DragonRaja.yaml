@@ -1,0 +1,33 @@
+title: DragonRaja
+variables:
+  # [rounds, validrounds, totalrounds, grams, totalgrams, score, details, used1, lastone]
+constants:
+  remark: 
+stages:
+  "1.0":
+    chapter: 
+    story: |- 
+      > Welcome to the A&T Adventure! You can use the Audio Button or Input Bar at the website.
+      >
+      > This sctript is based on the serializing fantasy novels - Dragon Raja written by Nan Jiang.
+      >
+      > Now, you can tring to type [continue] or [go on] or press the record button to start the game.
+      >
+      > Or try any other input as you want?
+    choices:
+      - keywords: [go, go on, continue, next]
+        description: ""
+        action: [gotox, calc, calc, calc, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (199 - 1) + 1)",
+            "totalrounds?5:5",
+            "validrounds?1:1",
+            "grams?0:0",
+            "score?0:0",
+            "details?'':''",
+            "used1?0:0",
+            "lastone?'':''",
+          ]
+  "1.1":
+    

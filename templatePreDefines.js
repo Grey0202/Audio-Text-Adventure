@@ -1,21 +1,16 @@
 //！ This file contains pre-defined templates for the game engine.
 
-// export namespace OutputTemplate {}
-
-// Comment for set emptySetting as default value.
+/// Comment for set emptySetting as default value.
 // const chapterNamePositon = `[chapterNamePositon]`
 // const storyPositon = `[storyPostion]`
-const senderTemplate = '@sender';
-const titleTemplate = '@title';
+export const senderTemplate = '@sender';
+export const titleTemplate = '@title';
 
-const emptyChapter = "Unknown Chapter";
-const emptyChapter_CN = "未知章节";
-const emptyStoryMsg = 'No story content in this section';
-const outputTemplate = `#### ${emptyChapter}\n\n${emptyStoryMsg}\n`;
-const matchChapterErr = "No match stage/chapter, please check the game tree."
-const gotoAction = "goto"
+export const emptyChapter = "Unknown Chapter";
+export const emptyChapter_CN = "未知章节";
+export const emptyStoryMsg = 'No story content in this section';
+export const outputTemplate = `#### ${emptyChapter}\n\n${emptyStoryMsg}\n`;
+export const matchChapterErr = "No match stage/chapter, please check the game tree."
+export const gotoAction = "goto"
 
-// console.log(outputTemplate) // debug
-
-export {senderTemplate, titleTemplate, emptyChapter, emptyChapter_CN, emptyStoryMsg, outputTemplate, matchChapterErr, gotoAction};
 
