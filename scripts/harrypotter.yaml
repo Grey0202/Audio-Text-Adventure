@@ -39,7 +39,7 @@ stages:
 
           看起来倒不如: 
           - **继续赖床**
-        action: none
+        action: [none]
       - keywords: [继续, 赖床, 睡觉, 懒, 忽略, 梦]
         description: ""
         action: [goto]
@@ -64,8 +64,8 @@ stages:
     choices:
       - keywords: [起床, 立即]
         description: ""
-        action: goto
-        param: "1.4"
+        action: [goto]
+        param: ["1.4"]
       - keywords: [继续, 赖床, 睡觉, 懒, 忽略, 梦]
         description: |-
           > 过生日的达力显然十分高兴，故意在楼梯上使劲地跳，震的哈利睡的壁橱里一阵落灰。
@@ -81,7 +81,7 @@ stages:
           提示: 你可以作出如下选择: 
           - **起床**: 佩妮姨妈已经两次叫你起床了，再不起床可不妙
           - **赖床**: 也许，就算当一个叛逆的孩子，也没有什么不好
-        action: none
+        action: [none]
   "1.4":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -94,20 +94,20 @@ stages:
     choices:
       - keywords: ["36", "三十六"]
         description: "佩妮姨妈说上街再买两件，你显然没有算进来"
-        action: none
+        action: [none]
       - keywords: ["38", "三十八"]
         description: "你算错了，要不要再重新数数看？"
-        action: none
+        action: [none]
       - keywords: ["39", "三十九", "不要"]
         description: ""
-        action: goto
-        param: "1.5"
+        action: [goto]
+        param: ["1.5"]
       - keywords: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "三", "十"]
         description: |-
           > “笨蛋，这都不会算！我再给你一次机会”佩妮姨妈说到，她显然感觉到骄傲，因为就智商而言，虽然达力不算高，但哈利也远远比不上他。
 
           请问要不要再想想？
-        action: none
+        action: [none]
   "1.5":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -121,8 +121,8 @@ stages:
     choices:
       - keywords: [答应, 好, 可以, ok, yes]
         description: ""
-        action: goto
-        param: "1.6"
+        action: [goto]
+        param: ["1.6"]
       - keywords: [去你的, 不, 不行, no, fuck]
         description: |-
           > “你说什么？”弗农姨夫往哈利头上重重地捶了一拳，哈利健康值-5
@@ -131,12 +131,12 @@ stages:
 
           请输入“继续”阅读下一小节的剧情:
           - **继续**
-        action: calc
-        param: health-5
+        action: [calc]
+        param: [health-5]
       - keywords: [继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "1.6"
+        action: [goto]
+        param: ["1.6"]
   "1.6":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -149,8 +149,8 @@ stages:
     choices:
       - keywords: [继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "1.7"
+        action: [goto]
+        param: ["1.7"]
   "1.7":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -165,8 +165,8 @@ stages:
     choices:
       - keywords: [继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "1.8"
+        action: [goto]
+        param: ["1.8"]
   "1.8":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -189,8 +189,8 @@ stages:
           - **你是谁？**
           - **你来自哪里？**
           - **你幸福吗？**
-        action: incr
-        param: qsnake
+        action: [incr]
+        param: [qsnake]
       - keywords: [你是, 是谁, 你谁, who]
         description: |-
           > “这还不够明显嘛，我是一条巨蟒🐍，这一带的程序员跟我很熟。”巨蟒回答说。
@@ -200,8 +200,8 @@ stages:
           - **你是谁？**
           - **你来自哪里？**
           - **你幸福吗？**
-        action: incr
-        param: qsnake
+        action: [incr]
+        param: [qsnake]
       - keywords: [哪里, 地方, 来自, 来的, 这里, 家, where, home, from]
         description: |-
           > 巨蟒甩着尾巴猛地拍了一下玻璃窗上的一块小牌子📜。哈利仔细看了一下：
@@ -212,8 +212,8 @@ stages:
           - **你是谁？**
           - **你来自哪里？**
           - **你幸福吗？**
-        action: incr
-        param: qsnake
+        action: [incr]
+        param: [qsnake]
       - keywords:
           [幸福, 生活, 快乐, 开心, 动物园, 喜欢, 您, happy, life, love, like]
         description: |-
@@ -224,8 +224,8 @@ stages:
           - **你是谁？**
           - **你来自哪里？**
           - **你幸福吗？**
-        action: incr
-        param: qsnake
+        action: [incr]
+        param: [qsnake]
       - keywords: []
         description: |-
           > “你在胡言乱语些什么？”巨蟒友善地讽刺哈利说。哈利仿佛能看到空气中地一个白眼🙄️
@@ -235,8 +235,8 @@ stages:
           - **你是谁？**
           - **你来自哪里？**
           - **你幸福吗？**
-        action: incr
-        param: qsnake
+        action: [incr]
+        param: [qsnake]
   "1.9":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -249,8 +249,8 @@ stages:
     choices:
       - keywords: [继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "1.10"
+        action: [goto]
+        param: ["1.10"]
   "1.10":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -271,8 +271,8 @@ stages:
 
           请输入“继续”进入下一小节:
           - **继续**
-        action: calc
-        param: "health-2"
+        action: [calc]
+        param: ["health-2"]
       - keywords: [趴下, 趴, 蹲, 躺, lay]
         description: |-
           > “你竟然还在做奇怪的事！”弗农姨夫一把抓住想要逃跑的哈利，一顿胖揍。哈利健康值-3
@@ -280,8 +280,8 @@ stages:
 
           请输入“继续”进入下一小节:
           - **继续**
-        action: calc
-        param: "health-2"
+        action: [calc]
+        param: ["health-2"]
       - keywords: [睡觉, 睡, 打盹, sleep]
         description: |-
           > “你竟然能睡得着！”弗农姨夫一把抓住想要逃跑的哈利，一顿胖揍。哈利健康值-4
@@ -289,13 +289,13 @@ stages:
 
           请输入“继续”进入下一小节:
           - **继续**
-        action: calc
-        param: "health-2"
+        action: [calc]
+        param: ["health-2"]
       - keywords:
           [什么也不, 不做, 呆, 坐, 站, stay, 继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "1.11"
+        action: [goto]
+        param: ["1.11"]
   "1.11":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -309,8 +309,8 @@ stages:
     choices:
       - keywords: [继续, 下一步, continue, next]
         description: ""
-        action: goto
-        param: "2.1"
+        action: [goto]
+        param: ["2.1"]
   "2.1":
     chapter: 猫头鹰传书
     story: |-
@@ -322,7 +322,7 @@ stages:
     choices:
       - keywords: [继续, 下一步, continue, next]
         description: "> 试玩版只有第一章哟～"
-        action: none
+        action: [none]
   "12.1":
     chapter: Game Over
     story: |-
@@ -338,8 +338,8 @@ dynamics:
   - conditions:
       chapter: "1.*"
       expression: health <= 0
-    action: goto
-    param: "12.1"
+    action: [goto]
+    param: ["12.1"]
   - conditions:
       chapter: "1.8"
       expression: qsnake >= 4
@@ -351,7 +351,7 @@ defaults:
   - conditions:
       chapter: "*"
       keywords: [help, man, 帮助, 怎么玩, 你是谁]
-    action: none
+    action: [none]
     description: |-
       > 欢迎来到`@title`，这是一个`文字冒险游戏`，你通过输入`动作`或`指令`来推进剧情、获取帮助。
       > 几乎每个90后，都曾梦想过作为一名🔯魔法师，进入霍格沃茨的校园；都曾经想象自己置身哈利波特的剧情中，或是作出🎲改变魔法世界的决策、或是体会⛳魁地奇的欢乐、或是去充满危险的🐸禁林里冒险。
@@ -367,15 +367,15 @@ defaults:
   - conditions:
       chapter: "*"
       keywords: [hint, 提示]
-    action: none
+    action: [none]
     description: "本小节没有提示😂"
   - conditions:
       chapter: "*"
       keywords: [reset, start, 重置, 回到开始, 重新开始, 开始游戏]
-    action: reset
+    action: [reset]
     description: "重置章节"
   - conditions:
       chapter: "*"
       keywords: []
-    action: none
+    action: [none]
     description: "> 先生实在抱歉，可是你说话好像一个麻瓜🌚🌝"
