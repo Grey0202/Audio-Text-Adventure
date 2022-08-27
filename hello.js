@@ -5,8 +5,6 @@ import * as save from './save_offline.js'
 import {play} from './play.js'
 import * as fs from 'fs'
 
-
-
 // local variables
 const path = "./scripts/"
 const hostname = '127.0.0.1'
@@ -60,7 +58,8 @@ for (var i in readDir) {
 
 // Todo: return scriptList to front end
 // while (true) {
-	var scriptUse = scriptList[3]
+	// var scriptUse = "DragonRaja.yaml"
+	var scriptUse = "harrypotter.yaml"
 	var script = loadScript(path+scriptUse)
 	if (!script) {
 		console.error("Failed to load script!")

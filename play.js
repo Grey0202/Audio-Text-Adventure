@@ -30,7 +30,6 @@ function displayCustom(stage, unprocStory, player, vars) {
         output = output.replace(tpd.emptyChapter, stage.chapter)
             .replace(tpd.emptyStoryMsg, unprocStory)
     }
-
     return output
 }
 
@@ -52,12 +51,13 @@ function chapterMatch(source, target) {
     }
 }
 
-// 根据输入推进剧情
+// Proceed the story according to the input.
 function proceed(stage, input, chapter, vars) {
     var defaults = script.defaults
     var dynamics = script.dynamics
     var variables = script.variables
     // 处理剧情选项/默认回复
+    // Main function, deal with the options and default replies.
     var process = function (choice) {
         var ret = {
             chapter: chapter,
@@ -70,14 +70,16 @@ function proceed(stage, input, chapter, vars) {
             vars[roundsVar] = vars[roundsVar] == undefined ? 0 : vars[roundsVar] + 1
             ret.variables = vars
         }
+        // Caclulate the Dynamic Variables
         // 动态执行代码
         var evalEx = function (cmd, savechg = false) {
             var cmdLines = []
-            // 因为需要初始化所有变量，所以要遍历整个变量声明列表
+            // This part include the variables initialization, it needs to go through all the variables.
+            // TODO: Revise the variable declaration and save strategy.
             variables.forEach(element => {
                 cmdLines.push("var " + element + " = " + JSON.stringify(ret.variables[element]))
             })
-            // 常量
+            // Constants caclulation.
             Object.keys(script.constants).forEach((key) => {
                 cmdLines.push("var " + key + " = " + JSON.stringify(script.constants[key]))
             })
@@ -85,7 +87,7 @@ function proceed(stage, input, chapter, vars) {
             var cmdCode = cmdLines.join(";\n")
             // console.log("\n[evalex begin]\n", cmdCode, "\n[evalex end]\n")
             var evalRet = eval(cmdCode)
-            // 原地保存修改
+            // Save var changes to the var array.
             if (savechg) {
                 variables.forEach(element => {
                     if (element != undefined && element != "") {
