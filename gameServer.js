@@ -4,27 +4,27 @@ import {loadScript} from './script_loader.js'
 import * as save from './save_offline.js'
 import {play} from './play.js'
 import * as fs from 'fs'
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+
+const app = express()
 
 // local variables
 const path = "./scripts/"
 const hostname = '127.0.0.1'
 const port = 1890
 
-const gameData = {
-	"chapter": "",
-	"output": "",
-}
+// Game handler part
+var scene = play("", profile, script)
 function getGameOutput(body) {
 	if (!body) {
 		console.log("Error: no body")
 		return "No Input"
 	}
-	console.log("body = " +body)
-	body = JSON.parse(body);
-
-	return gameInputHandler(body.input)
+	// console.log("[debug] In getGameOutput Alter \n    body = " +body)
+	return gameInputHandler((body.input).toString())
 }
-
 
 function gameInputHandler(input) {
 	// output = ''
@@ -41,11 +41,9 @@ function gameInputHandler(input) {
 	save.saveToDisk(profileFileName, profile)
 
 	// Return the output
-	console.log("Finish Input Handler")
+	// console.log("[Debug] Finish Input Handler")
 	return scene.output
 }
-
-
 
 var scriptList = []
 var readDir = fs.readdirSync(path);
@@ -80,55 +78,34 @@ if (!profile) {
 	}
 	save.saveToDisk(profileFileName, profile)
 }
-// 继续游戏
-var scene = play("", profile, script)
-
-
-// startServer()
-// function startServer() {
-const server = http.createServer((req, res) => {
-	const { headers, method, url } = req;
-	let body = '';
-	res.statusCode = 200
-	req.on('error', (err) => {
-		console.error(err);
-	})
-	req.on('data', (chunk) => {
-		console.log("chunk = ",chunk)
-		body += chunk.toString();
-		switch (method) {
-			case 'GET':
-				res.write('Please use POST method')
-				break
-			case 'POST':
-				switch (url) {
-					case '/game':
-						console.log("喵喵喵?")
-						res.write(getGameOutput(body))
-						res.end()
-						console.log("喵喵喵!")
-						break
-					default:
-						res.write('Please use /game')
-						break
-				}
-				break
-			default:
-				res.write('Please use POST method')
-				break
-		}
-	})
-	req.on('end', () => {
-	})
 
 
 
+// Server Part
+app.use(bodyParser.json())
+app.use(cors())
 
-	// res.setHeader('Content-Type', 'text/plain')
+app.options('/game', cors())
 
+app.all('*', function(req, res, next) {
+    // res.header("Access-Control-Allow-Origin", "*");
+	console.log("Request received\n##",req.url,"\n\n",req.body)
+    next();
+});
+
+app.post("/",function(req,res){
+	console.log(JSON.stringify(req.body));
+    res.send({hello:'world'});
+	next();
 })
-
-server.listen(port, hostname, () => {
+app.post("/game",function(req,res){
+	app.use(bodyParser.json())
+	console.log(req.headers);
+	res.header("Access-Control-Allow-Origin", "*")
+	console.log("\n log body:",req.body);
+	var gameOut = getGameOutput(req.body)
+    res.send(gameOut);
+})
+app.listen(port,() =>
 	console.log(`Server running at http://${hostname}:${port}/`)
-})
-// }
+)

@@ -6,7 +6,7 @@ constants:
   remark: 
 stages:
   "1.1":
-    chapter: 
+    chapter: The beginning of everything.
     story: |- 
       > Welcome to the A&T Adventure! You can use the Audio Button or Input Bar at the website.
       >
@@ -17,19 +17,117 @@ stages:
       >
       > Or try any other input as you want?
     choices:
-      - keywords: [go, go on, continue, next]
-        description: ""
-        action: [gotox, calc, calc, calc, calc, calc, calc, calc]
-        param:
+      - keywords: [go, go on, continue, next, begin]
+        description: "This is a amazing test output"
+        action: 
           [
-            "Math.round(Math.random() * (199 - 1) + 1)",
-            "totalrounds?5:5",
-            "validrounds?1:1",
-            "grams?0:0",
-            "score?0:0",
-            "details?'':''",
-            "used1?0:0",
-            "lastone?'':''",
+            gotox: "1.2",
           ]
-  "1.1":
-    
+
+  "1.2":
+    chapter: Human sometime have illusion that the door to heaven open. Yes, it dose, when in hell.
+    story: |- 
+      > You are Lu MingFei, 18 Years old. your specialty is "STARCRAFT". Actually, you are going to take the important Gao Kao Exam in 3 months. 
+      >
+      > Now, you versus someone you don't know, using the red dot. You didn't think she was a pro until you are ambushed by a small trick.
+      > You just find your rival controls perfectly, she must be good at this game too.
+      >
+      > So you dicide to:
+        - ** Connect Mouse to PC **
+        - ** Use more aggressive astrategy, Upgrade Base to Level 3. **
+        - ** Type "GG" **
+      >
+      >
+      >
+    choices:
+      - keywords: [upgrade, level up, change strategy]
+        description: ""
+        action: 
+          [
+            gotox: "1.3"
+          ]
+      - keywords: [mouse, connect]
+        description: |-
+         > Now you connected the mouse, what to do next?
+         >
+         >
+          - ** Use more aggressive astrategy, Upgrade Base to Level 3. **
+          - ** Type "GG" **
+        
+        action: [none]
+
+  "1.3":
+    chapter: "GG"
+    story: |-
+      > "UR upgrading your base to level 3, right? Give Up!" - Nono send this to you.
+      > 
+      > "Just Crtl+F4, 4 teams, both attack and armored are level 2."
+      > 
+      > 
+      > Then she shows her invincible army is on the way to your base, and you cannot even finish the upgrading before you lose.
+      > 
+      > Looks like all the things you can do is type "GG".
+      >
+    choices:
+      - keywords: [gg, lose, defeated]
+        description: ""
+        action: 
+          [ 
+            gotox: "1.4"
+          ]
+  "1.4":
+    chapter: The failure on your specialty.
+    story: |- 
+      > Now, She beaten you at your only specialty, with an overwhelming victory.
+      > 
+      > Minutes ago, Someone named Nono asked you if you want to have a game. You have no idead when you add her, because you had never refused
+        any friend invitation on WeChat - you have few friends.
+      > 
+      > 
+      >
+    choices:
+      - keywords: [upgrade, level up, change strategy]
+        description: |-
+          >
+          >
+        action: 
+          [ 
+          ]
+      - keywords: [upgrade, level up, change strategy]
+        description: ""
+        action: 
+          [
+
+          ]
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助, 怎么玩, 你是谁]
+    action: [none]
+    description: |-
+      > Welcome to the `@title`! You can use the Audio Button or Input Bar at the website to move forward or get help for the game.
+      > 
+      > This game is a ** very short ** demo.
+      > 
+      > If you think the script is bad, please email: bli68@sheffield.ac.uk and tell him.
+      > 
+      > If you can not use the speech service, or you think it should be imporved, please provide more detail.
+      > 
+      > Thank you very much for palying.
+
+  - conditions:
+      chapter: "*"
+      keywords: [hint, 提示]
+    action: [none]
+    description: "May be a start at Github can inspire? "
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start, 重置, 开始, 重新开始, 开始游戏]
+    action: [reset]
+    description: "You are using the time machine."
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: [none]
+    description: "> Why not try it again?"
+
