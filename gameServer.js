@@ -5,6 +5,7 @@ import fs from 'fs'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import * as stt from "./ibmSTT.js"
 
 const app = express()
 
@@ -12,6 +13,8 @@ const app = express()
 const path = "./scripts/"
 const hostname = '127.0.0.1'
 const port = 1890
+
+var speechToTextEnabled = true
 
 // Game handler part
 
@@ -41,6 +44,24 @@ function gameInputHandler(input) {
 	// Return the output
 	// console.log("[Debug] Finish Input Handler")
 	return scene.output
+}
+
+function voiceInputHandler(body) {
+	
+	if (!body.file) {
+		console.log("Error: no voice file")
+		return "No Input"
+	}
+	else{
+		var vfile = (body.file).toString()
+		console.log("\nvoice file in:", vfile)
+	}
+	// TODO add file real address
+	var voiceInput = ""
+	// voiceInput = stt.sop_test(vfile);
+	// 可能会异步
+	return voiceInput
+	// return gameInputHandler(voiceInput);
 }
 
 var scriptList = []
@@ -94,10 +115,21 @@ app.all('*', function(req, res, next) {
 });
 
 app.post("/",function(req,res){
-	console.log(JSON.stringify(req.body));
+	// console.log(JSON.stringify(req.body));
     res.send({hello:'world'});
 	next();
 })
+
+app.post("/audio",function(req,res){
+	console.log(req.headers);
+	res.header("Access-Control-Allow-Origin", "*")
+	console.log("\nAudio route log body:",req.body);
+	if(speechToTextEnabled){
+		var gameOut = voiceInputHandler(req.body)
+	}
+    res.send(gameOut);
+})
+
 app.post("/game",function(req,res){
 	app.use(bodyParser.json())
 	console.log(req.headers);
@@ -106,6 +138,7 @@ app.post("/game",function(req,res){
 	var gameOut = getGameOutput(req.body)
     res.send(gameOut);
 })
+
 app.listen(port,() =>
 	console.log(`Server running at http://${hostname}:${port}/`)
 )
