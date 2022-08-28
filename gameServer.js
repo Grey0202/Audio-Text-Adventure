@@ -1,11 +1,11 @@
-import {loadScript} from './script_loader.js'
+import { loadScript } from './script_loader.js'
 import * as save from './save_offline.js'
-import {play} from './play.js'
+import { play } from './play.js'
 import fs from 'fs'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import * as stt from "./ibmSTT.js"
+import * as sao from "./ibmSTT.js"
 
 const app = express()
 
@@ -16,19 +16,13 @@ const port = 1890
 
 var speechToTextEnabled = true
 
-// Game handler part
-
-function getGameOutput(body) {
-	if (!body) {
+// Both text and voice input handler
+function gameInputHandler(input) {
+	// output = ''
+	if (!input) {
 		console.log("Error: no body")
 		return "No Input"
 	}
-	// console.log("[debug] In getGameOutput Alter \n    body = " +body)
-	return gameInputHandler((body.input).toString())
-}
-
-function gameInputHandler(input) {
-	// output = ''
 	if (input == "exit" || input == "quit" || input == "退出") {
 		return -1
 	}
@@ -41,26 +35,35 @@ function gameInputHandler(input) {
 	profile.variables = scene.variables
 	save.saveToDisk(profileFileName, profile)
 
-	// Return the output
 	// console.log("[Debug] Finish Input Handler")
 	return scene.output
 }
 
-function voiceInputHandler(body) {
+// TODO: move to stt file.
+async function voiceInputHandler(body) {
 	if (!body.file) {
 		console.log("Error: no voice file")
 		return "No Input"
 	}
-	else{
+	else {
 		var vfile = (body.file).toString()
 		console.log("\nvoice file in:", vfile)
 	}
 
 	// TODO add file real address
 	vfile = "./audio-file.flac"
-	var voiceInput = stt.sop_test(vfile);
-	// 可能会异步
-	return voiceInput
+
+	var voiceInput = await sao.parseAduioFile(vfile);
+	console.log("\n[debug]!!!!!!voice input:", voiceInput)
+	return new Promise((resolve, reject) => {
+		if (typeof voiceInput == "string") {
+			resolve(gameInputHandler(voiceInput))
+		}
+		else {
+			reject("error")
+		}
+	}).then(result => { return result })
+		.catch(err => { return err })
 	// return gameInputHandler(voiceInput);
 }
 
@@ -75,19 +78,19 @@ for (var i in readDir) {
 
 // Todo: return scriptList to front end
 // while (true) {
-	var scriptUse = "DragonRaja.yaml"
-	// var scriptUse = "harrypotter.yaml"
-	var script = loadScript(path+scriptUse)
-	if (!script) {
-		console.error("Failed to load script!")
-	}
-	else {
-		console.log("Loaded script: " + scriptUse)
-	}
-	// else break
+// var scriptUse = "DragonRaja.yaml"
+var scriptUse = "harrypotter.yaml"
+var script = loadScript(path + scriptUse)
+if (!script) {
+	console.error("Failed to load script!")
+}
+else {
+	console.log("Loaded script: " + scriptUse)
+}
+// else break
 // }
 var profileFileName = scriptUse + ".save"
-var profile = save.loadFromDisk(path+profileFileName)
+var profile = save.loadFromDisk(path + profileFileName)
 
 if (!profile) {
 	profile = {
@@ -108,37 +111,46 @@ app.use(cors())
 
 app.options('/game', cors())
 
-app.all('*', function(req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
-	console.log("Request received\n##",req.url,"\n\n",req.body)
-    next();
+app.all('*', function (req, res, next) {
+	// res.header("Access-Control-Allow-Origin", "*");
+	console.log("Request received\n##", req.url, "\n\n", req.body)
+	next();
 });
 
-app.post("/",function(req,res){
+app.post("/", function (req, res) {
 	// console.log(JSON.stringify(req.body));
-    res.send({hello:'world'});
+	res.send({ hello: 'world' });
 	next();
 })
 
-app.post("/audio",function(req,res){
+app.post("/audio", function (req, res) {
 	console.log(req.headers);
 	res.header("Access-Control-Allow-Origin", "*")
-	console.log("\nAudio route log body:",req.body);
-	if(speechToTextEnabled){
-		var gameOut = voiceInputHandler(req.body)
+	console.log("\nAudio route log body:", req.body);
+	if (speechToTextEnabled) {
+		voiceInputHandler(req.body).
+			then(result => {
+				console.log("[DEBUG] Audio RES will be sent:\n", result);
+				res.send(result)
+			}).catch(err => {
+				console.log("[DEBUG] Audio ERR will be sent:\n", err);
+				res.send(err)
+			})
 	}
-    res.send(gameOut);
+	else {
+		return res.send("Speech to text is disabled")
+	}
 })
 
-app.post("/game",function(req,res){
+app.post("/game", function (req, res) {
 	app.use(bodyParser.json())
-	console.log(req.headers);
+	// console.log("[DEBUG] Reqest Header:\n", req.headers);
 	res.header("Access-Control-Allow-Origin", "*")
-	console.log("\n log body:",req.body);
-	var gameOut = getGameOutput(req.body)
-    res.send(gameOut);
+	// console.log("\n[DEBUG] log body:\n", req.body);
+	var gameOut = gameInputHandler(req.body.input)
+	res.send(gameOut);
 })
 
-app.listen(port,() =>
+app.listen(port, () =>
 	console.log(`Server running at http://${hostname}:${port}/`)
 )
