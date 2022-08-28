@@ -6,15 +6,16 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import * as sao from "./ibmSTT.js"
+import * as tpd from "./templatePreDefines.js"
+import { tmpdir } from 'os'
 
 const app = express()
 
 // local variables
-const path = "./scripts/"
+const scriptPath = "./scripts/"
 const hostname = '127.0.0.1'
 const port = 1890
-
-var speechToTextEnabled = true
+const speechToTextEnabled = true
 
 // Both text and voice input handler
 function gameInputHandler(input) {
@@ -40,35 +41,26 @@ function gameInputHandler(input) {
 }
 
 // TODO: move to stt file.
-async function voiceInputHandler(body) {
-	if (!body.file) {
-		console.log("Error: no voice file")
-		return "No Input"
+async function voiceInputHandler(vfile) {
+	if (!vfile) {
+		console.log("Error: No Voice File")
+		return "No File Input"
 	}
 	else {
-		var vfile = (body.file).toString()
-		console.log("\nvoice file in:", vfile)
+		console.log("\nVoice File In:", vfile)
 	}
 
-	// TODO add file real address
+	// TODO: change to file real address
 	vfile = "./audio-file.flac"
 
-	var voiceInput = await sao.parseAduioFile(vfile);
-	console.log("\n[debug]!!!!!!voice input:", voiceInput)
-	return new Promise((resolve, reject) => {
-		if (typeof voiceInput == "string") {
-			resolve(gameInputHandler(voiceInput))
-		}
-		else {
-			reject("error")
-		}
-	}).then(result => { return result })
-		.catch(err => { return err })
-	// return gameInputHandler(voiceInput);
+	return sao.parseAduioFile(vfile).then(result => {
+		// console.log("\n[debug]!!!!!!voice input: ", result)
+		return (gameInputHandler(result))
+	}).catch(err => { return err })
 }
 
 var scriptList = []
-var readDir = fs.readdirSync(path);
+var readDir = fs.readdirSync(scriptPath);
 for (var i in readDir) {
 	if (readDir[i].endsWith(".yaml")) {
 		console.log(readDir[i])
@@ -80,7 +72,7 @@ for (var i in readDir) {
 // while (true) {
 // var scriptUse = "DragonRaja.yaml"
 var scriptUse = "harrypotter.yaml"
-var script = loadScript(path + scriptUse)
+var script = loadScript(scriptPath + scriptUse)
 if (!script) {
 	console.error("Failed to load script!")
 }
@@ -90,12 +82,13 @@ else {
 // else break
 // }
 var profileFileName = scriptUse + ".save"
-var profile = save.loadFromDisk(path + profileFileName)
+var profile = save.loadFromDisk(scriptPath + profileFileName)
 
+// TODO: change default chapter
 if (!profile) {
 	profile = {
-		player: "player",
-		chapter: "1.1",
+		player: tpd.defaultPlayerName,
+		chapter: tpd.defaultChapter,
 		variables: {},
 		inputs: []
 	}
@@ -128,7 +121,7 @@ app.post("/audio", function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*")
 	console.log("\nAudio route log body:", req.body);
 	if (speechToTextEnabled) {
-		voiceInputHandler(req.body).
+		voiceInputHandler(req.body.file).
 			then(result => {
 				console.log("[DEBUG] Audio RES will be sent:\n", result);
 				res.send(result)

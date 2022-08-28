@@ -2,9 +2,10 @@ import SpeechToTextV1 from 'ibm-watson/speech-to-text/v1.js';
 import * as auth from 'ibm-watson/auth/index.js';
 import fs from 'fs';
 import * as config from './config.js';
+import * as tpd from './templatePreDefines.js';
 
 
-export function parseAduioFile(Speechfile) {
+export function parseAduioFile(Speechfile, language = 'en') {
     const speechToText = new SpeechToTextV1({
         authenticator: new auth.IamAuthenticator({
             apikey: config.apikey,
@@ -13,22 +14,17 @@ export function parseAduioFile(Speechfile) {
         disableSslVerification: true,
     });
 
-
-    // speechToText.method(params)
-    //   .catch(err => {
-    //     console.log('error:', err);
-    //   });
     console.log("\n[Debug]Speechfile: ", Speechfile);
     const params = {
         objectMode: true,
         // TDOO: change content type
         contentType: 'audio/flac',
-        model: 'en-US_BroadbandModel',
+        model: language == "en" ? tpd.ibmSttEnglishModel : tpd.ibmSttChineseModel,
         // keywords: ['colorado', 'tornado', 'tornadoes'],
         // keywordsThreshold: 0.5,
         maxAlternatives: 3,
     };
-    
+
     // Create the stream.
     console.log("\n[Debug]start pipe");
     const recognizeStream = speechToText.recognizeUsingWebSocket(params);
