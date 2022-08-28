@@ -16,7 +16,7 @@ const hostname = '127.0.0.1'
 const port = 1890
 
 // Game handler part
-var scene = play("", profile, script)
+
 function getGameOutput(body) {
 	if (!body) {
 		console.log("Error: no body")
@@ -80,6 +80,7 @@ if (!profile) {
 }
 
 
+var scene = play("", profile, script)
 
 // Server Part
 app.use(bodyParser.json())
