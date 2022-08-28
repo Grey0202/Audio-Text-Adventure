@@ -105,6 +105,33 @@ stages:
           [
 
           ]
+  "1.5":
+    chapter: The memory you treat like a trueasure must be with someone speical.
+    # 某一段时光的温暖，一定是要与某一个参与其中，才会被人反反复复地铭记。
+    story: |- 
+      > Now, She beaten you at your only specialty, with an overwhelming victory.
+      > 
+      > Minutes ago, Someone named Nono asked you if you want to have a game. You have no idead when you add her, because you had never refused any friend invitation on WeChat - you have few friends.
+      > 
+      > You think she knows you more than anyone else in the word, just like your best friend. 
+      > 
+      > The girl you like, Chen Wenwen just replaied you, "Yes, I'll, see you there the day after tomorrow.", that's what you waited for 20 hours.
+      > 
+      > But that message is too much enough for you to forget the lose of that game.
+    choices:
+      - keywords: [upgrade, level up, change strategy]
+        description: |-
+          >
+          >
+        action: 
+          [ 
+          ]
+      - keywords: [upgrade, level up, change strategy]
+        description: ""
+        action: 
+          [
+
+          ]
 defaults:
   - conditions:
       chapter: "*"
