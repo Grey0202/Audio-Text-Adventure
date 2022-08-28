@@ -1,7 +1,7 @@
 # A&Text-Adventure
 
 ## Description
-Before all: ThanksThis ATA project is inspired by [A markdown Game](https://github.com/YicongCao/MarkdownGame). The game engine/script design is also based on it with a mass of improvement.
+Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game](https://github.com/YicongCao/MarkdownGame) and the game engine/script is based on his brilliant idea.
 
 
 ## Features
@@ -18,6 +18,8 @@ Before all: ThanksThis ATA project is inspired by [A markdown Game](https://gith
 - [x] Change yamljs to js-yaml
 - [x] Add front-end page
 <!-- - [ ]  -->
+
+
 ## How to play
 #### Backend
 npm install
