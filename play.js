@@ -325,7 +325,7 @@ function proceed(stage, input, chapter, vars) {
 }
 
 // Main function.
-export function play(input, profile, scriptObj) {
+function play(input, profile, scriptObj) {
     script = scriptObj
     // console.log("[DEBUG] Profile when loading:",profile)
     var chapter = profile.chapter
@@ -367,4 +367,4 @@ export function play(input, profile, scriptObj) {
     }
 }
 
-// export { play }
+export { play }

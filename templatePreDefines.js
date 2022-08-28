@@ -6,8 +6,6 @@
 export const senderTemplate = '@sender';
 export const titleTemplate = '@title';
 export const resetChapter = "1.1" // Also the beginning of the story.
-export const defaultChapter = "1.1"
-export const defaultPlayerName = "player"
 
 export const emptyChapter = "Unknown Chapter";
 export const emptyChapter_CN = "未知章节";
@@ -27,9 +25,5 @@ export const incrAction = "incr"
 export const noneAction = "none"
 export const gotoxAction = "gotox"
 
-export const ibmSttChineseModel = "zh-CN_Telephony"
-export const ibmSttUKEnglishModel = "en-GB_Multimedia"
-export const ibmSttUSEnglishModel = "en-US_Multimedia"
-export const ibmSttEnglishModel = `${ibmSttUKEnglishModel}`
 
 
