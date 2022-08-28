@@ -1,9 +1,7 @@
-// const { NONAME } = require('dns')
-import * as http from 'http'
 import {loadScript} from './script_loader.js'
 import * as save from './save_offline.js'
 import {play} from './play.js'
-import * as fs from 'fs'
+import fs from 'fs'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -56,8 +54,8 @@ for (var i in readDir) {
 
 // Todo: return scriptList to front end
 // while (true) {
-	// var scriptUse = "DragonRaja.yaml"
-	var scriptUse = "harrypotter.yaml"
+	var scriptUse = "DragonRaja.yaml"
+	// var scriptUse = "harrypotter.yaml"
 	var script = loadScript(path+scriptUse)
 	if (!script) {
 		console.error("Failed to load script!")
@@ -69,6 +67,7 @@ for (var i in readDir) {
 // }
 var profileFileName = scriptUse + ".save"
 var profile = save.loadFromDisk(path+profileFileName)
+
 if (!profile) {
 	profile = {
 		player: "player",
