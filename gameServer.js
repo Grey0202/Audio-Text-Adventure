@@ -47,7 +47,6 @@ function gameInputHandler(input) {
 }
 
 function voiceInputHandler(body) {
-	
 	if (!body.file) {
 		console.log("Error: no voice file")
 		return "No Input"
@@ -56,9 +55,10 @@ function voiceInputHandler(body) {
 		var vfile = (body.file).toString()
 		console.log("\nvoice file in:", vfile)
 	}
+
 	// TODO add file real address
-	var voiceInput = ""
-	// voiceInput = stt.sop_test(vfile);
+	vfile = "./audio-file.flac"
+	var voiceInput = stt.sop_test(vfile);
 	// 可能会异步
 	return voiceInput
 	// return gameInputHandler(voiceInput);

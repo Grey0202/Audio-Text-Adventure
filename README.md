@@ -1,5 +1,7 @@
 # A&Text-Adventure
 
+<font color=red size=5>ALERT: This is a work in progress! Not all features are implemented yet. Could contain serious bugs.</font>
+
 ## Description
 Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game](https://github.com/YicongCao/MarkdownGame) and the game engine/script is based on his brilliant idea.
 
@@ -22,8 +24,10 @@ Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game]
 
 ## How to play
 #### Backend
+```
 npm install
 node gameServer.js
+```
 
 
 
