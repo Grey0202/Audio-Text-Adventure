@@ -3,6 +3,7 @@ import * as tpd from "./templatePreDefines.js"
 var script = undefined
 var storyMode = false
 var APcombined = false
+var speechToTextEnabled = false
 
 function displayCustom(stage, unprocStory, player, vars) {
 
@@ -106,7 +107,7 @@ function proceed(stage, input, chapter, vars) {
             // Revised action yaml format, need to remove the if statement after all the scripts are updated.
             if (script.APcombined) {
                 console.log("\n####   APcombined Mode is on. \n")
-                if (typeof choice.action === "string") {
+                if (typeof choice.action[0] === "string") {
                     if (choice.action != "none") {
                         console.error("Unprocessed [string] action type")
                     }
@@ -114,7 +115,7 @@ function proceed(stage, input, chapter, vars) {
                         choice.action = []
                     }
                 }
-                console.log("\n[debug] action[0]\n", typeof (choice.action[0]))
+                // console.log("\n[debug] action :\n", choice.action)
                 var actionArray = choice.action
                 actionArray.forEach(element => {
                     var action = Object.keys(element)[0];
@@ -162,7 +163,7 @@ function proceed(stage, input, chapter, vars) {
                         ret.chapter = tpd.resetChapter
                         ret.variables = {}
                     } else {
-                        console.log("choice action exception")
+                        // console.log("[Debug] choice action exception, action: ", action)
                         ret.output.push(tpd.gameTreeCrashErr)
                     }
 
@@ -170,7 +171,7 @@ function proceed(stage, input, chapter, vars) {
                 return varChanged
             }
             else {
-                // To be remove after all the scripts are updated.
+                // TODO: To be remove after all the scripts are updated.
                 var actionSet, paramSet
                 if (typeof choice.action == "string") {
                     console.error(tpd.singleStringActionErr)
@@ -326,6 +327,7 @@ function proceed(stage, input, chapter, vars) {
 // Main function.
 function play(input, profile, scriptObj) {
     script = scriptObj
+    // console.log("[DEBUG] Profile when loading:",profile)
     var chapter = profile.chapter
     var player = profile.player
     var vars = profile.variables
