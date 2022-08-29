@@ -12,6 +12,7 @@ Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game]
 - [ ] Add a script editor
 - [ ] Revise script parse logic to allow more flexible script writing (use two differnet variables to caculate the result of a expression)
 - [ ] Revise Load & Save game
+- [ ] Revise response and output stream, change to json type
 - [ ] Code clean up
 - [ ] Change to typescript project
 
