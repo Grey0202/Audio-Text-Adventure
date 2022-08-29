@@ -18,11 +18,8 @@ export function parseAduioFile(Speechfile, language = 'en') {
     const params = {
         objectMode: true,
         // TDOO: change content type
-        contentType: 'audio/flac',
+        contentType: 'application/octet-stream',
         model: language == "en" ? tpd.ibmSttEnglishModel : tpd.ibmSttChineseModel,
-        // keywords: ['colorado', 'tornado', 'tornadoes'],
-        // keywordsThreshold: 0.5,
-        maxAlternatives: 3,
     };
 
     // Create the stream.
@@ -54,7 +51,7 @@ export function parseAduioFile(Speechfile, language = 'en') {
                     result += alternatives[i].transcript;
                 }
             }
-            // console.log("\n[Debug]alternatives: ", result);
+            // console.log("\n[Debug] Alternatives: ", result);
             resolve(result);
         }
     }).then(result => {

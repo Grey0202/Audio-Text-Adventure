@@ -28,6 +28,7 @@ function gameInputHandler(input) {
 		return -1
 	}
 	// Call main function.
+	console.log("\n[INFO] Input:", input);
 	profile.inputs.push(input)
 	save.saveToDisk(profileFileName, profile)
 	scene = play(input, profile, script)
