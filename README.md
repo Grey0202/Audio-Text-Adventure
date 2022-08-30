@@ -7,18 +7,19 @@ Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game]
 
 
 ## Features
-### Update Plan (TODO List)
-- [ ] Voice input (under development)
-- [ ] Add a script editor
-- [ ] Revise script parse logic to allow more flexible script writing (use two differnet variables to caculate the result of a expression)
-- [ ] Revise Load & Save game
-- [ ] Revise response and output stream, change to json type
-- [ ] Code clean up
-- [ ] Change to typescript project
-- [ ] Chinese/English version
-- [ ] Script selector
+### UpdatePlan (TODO List)
+
+- [ ] Add a script editor - Low Priority
+- [ ] Revise script parse logic to allow more flexible script writing (use two differnet variables to caculate the result of a expression) - Low Priority
+- [ ] Revise Load & Save game - Middle Priority
+- [ ] Code clean up - Middle Priority
+- [ ] Change to typescript project - Low Priority
+- [ ] Chinese/English version - Low Priority
+- [ ] Script selector - Middle Priority
 
 ### Current Features
+- [x] Voice input
+- [x] Revise response and output stream, change to json type 
 - [x] Revise action-parameter map in yaml
 - [x] Change yamljs to js-yaml
 - [x] Add front-end page
