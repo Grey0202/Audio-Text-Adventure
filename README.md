@@ -15,6 +15,8 @@ Before all: Thanks @YicongCao. This ATA project is inspired by [A markdown Game]
 - [ ] Revise response and output stream, change to json type
 - [ ] Code clean up
 - [ ] Change to typescript project
+- [ ] Chinese/English version
+- [ ] Script selector
 
 ### Current Features
 - [x] Revise action-parameter map in yaml

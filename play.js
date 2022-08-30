@@ -1,4 +1,4 @@
-import * as tpd from "./templatePreDefines.js"
+import * as tpd from "./templates.js"
 
 var script = undefined
 var storyMode = false
@@ -13,6 +13,11 @@ function displayCustom(stage, unprocStory, player, vars) {
     // console.log("\n\n\ndefmsg\n", unprocStory)
     // console.log('\n\n\n\n\ndebug\n',stage,unprocStory)
     var output = tpd.outputTemplate
+    // var output = {
+    //     "title": tpd.emptyChapter,
+    //     "content": tpd.emptyStoryMsg,
+    //     "error": ""
+    // }
 
     if (stage != undefined) {
         // unprocStory = stage.story
@@ -27,6 +32,9 @@ function displayCustom(stage, unprocStory, player, vars) {
         Object.keys(script.constants).forEach(function (key) {
             unprocStory = unprocStory.replace("@" + key, script.constants[key])
         })
+
+        // output.title = stage.chapter
+        // output.content = unprocStory
 
         output = output.replace(tpd.emptyChapter, stage.chapter)
             .replace(tpd.emptyStoryMsg, unprocStory)
@@ -334,7 +342,13 @@ export function play(input, profile, scriptObj) {
     APcombined = scriptObj.APcombined
     // console.log("Player:", player, "CurChapter:", chapter, "Input:", input)
     var chapterAfter = chapter
-    var outputText = []
+    let outputText = []
+    // TODO, change to Json format output.
+    // let outputMap = {
+    //     "title": "",
+    //     "content": [],
+    //     "error": ""
+    // }
     var stage = script.stages[chapter]
     var chapterStory = ""
     input = String(input).toLowerCase().trim()

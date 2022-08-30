@@ -2,10 +2,10 @@ import SpeechToTextV1 from 'ibm-watson/speech-to-text/v1.js';
 import * as auth from 'ibm-watson/auth/index.js';
 import fs from 'fs';
 import * as config from './config.js';
-import * as tpd from './templatePreDefines.js';
+import * as tpd from './templates.js';
 
 
-export function parseAduioFile(Speechfile, language = 'en') {
+export function parseAduioFile(speechStream, language = 'cn') {
     const speechToText = new SpeechToTextV1({
         authenticator: new auth.IamAuthenticator({
             apikey: config.apikey,
@@ -14,7 +14,7 @@ export function parseAduioFile(Speechfile, language = 'en') {
         disableSslVerification: true,
     });
 
-    console.log("\n[Debug]Speechfile: ", Speechfile);
+    // console.log("\n[Debug]Speechfile: ", Speechfile);
     const params = {
         objectMode: true,
         // TDOO: change content type
@@ -27,7 +27,7 @@ export function parseAduioFile(Speechfile, language = 'en') {
     const recognizeStream = speechToText.recognizeUsingWebSocket(params);
 
     // Pipe in the audio.
-    fs.createReadStream(Speechfile).pipe(recognizeStream);
+    speechStream.pipe(recognizeStream);
     console.log("\n[Debug]pip end");
 
     return new Promise((resolve, reject) => {
