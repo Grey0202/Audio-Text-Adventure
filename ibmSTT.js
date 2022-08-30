@@ -44,7 +44,8 @@ export function parseAduioFile(speechStream, language = 'cn') {
             let result = ""
             console.log("Aduio is in processing: onDataEvent");
             if (event.results) {
-                // console.log(resJson)
+                console.log(event.results)
+                //! Could have no alternatives? only once happend
                 var alternatives = event.results[0].alternatives;
                 // combine all the alternatives
                 for (var i = 0; i < alternatives.length; i++) {

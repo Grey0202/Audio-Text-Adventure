@@ -182,7 +182,7 @@ app.post("/audio", rawParser, function (req, res) {
 		voiceInputHandler(req).
 			then(result => {
 				console.log("[DEBUG] Audio RES will be sent:\n", result);
-				res.send(result)
+				res.send(JSON.stringify(result));
 			}).catch(err => {
 				console.log("[DEBUG] Audio ERR will be sent:\n", err);
 				res.send(err)
@@ -198,7 +198,7 @@ app.post("/game", jsonParser, function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*")
 	// console.log("\n[DEBUG] log body:\n", req.body);
 	var gameOut = gameInputHandler(req.body.input)
-	res.send(gameOut);
+	res.send(JSON.stringify(gameOut));
 })
 
 app.listen(port, () =>
