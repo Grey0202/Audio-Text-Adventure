@@ -9,7 +9,6 @@
 
 
 ## Features
-
 ### UpdatePlan (TODO List)
 
 - [ ] Add a script editor - Low Priority
@@ -21,7 +20,6 @@
 - [ ] Script selector - Middle Priority
 
 ### Current Features
-
 - [x] Voice input
 - [x] Using json return respones
 - [x] Revise response and output stream, change to json type
@@ -32,29 +30,12 @@
 
 
 ## How to play
-
-This branch contains 2 different part, which runs in fact not individually.
-
-
 #### Backend
 ```
 npm install
 node server.js
 ```
-#### Frontend
-```
-npm install
-npm start
-```
-
-
-
 
 
 ## Special thanks
-
-Thanks to @Chen-ttt for providing JavaScript support.
-
-Thanks to @withSoundi for providing front-end design support.
-
-Thanks to @YicongCao. This ATA project is inspired by [A markdown Game](https://github.com/YicongCao/MarkdownGame) and the game engine/script is based on his brilliant idea.
+Thanks @YicongCao. This ATA project is inspired by [A markdown Game](https://github.com/YicongCao/MarkdownGame) and the game engine/script is based on his brilliant idea.
