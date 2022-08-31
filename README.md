@@ -1,17 +1,18 @@
 # Audio&Text-Adventure v0.5.0
 
-<font color=red size=5>ALERT: The update for this project is suspended and will resume update after the dissertation is submitted.</font>
+## <font color=red size=5>ALERT: The update for this project is suspended and will resume update after the dissertation is submitted.</font>
 
-<font color=red size=5>ALERT: This is a work in progress! Not all features are implemented yet. Could contain serious bugs.</font>
+## <font color=red size=5>ALERT: This is a work in progress! Not all features are implemented yet. Could contain serious bugs.</font>
 
 ## Description
 
-
+To be finished...
 
 ## Features
 
 ### UpdatePlan (TODO List)
 
+- [ ] Add music generate AI funciton. - Mithgt be High priority.
 - [ ] Add a script editor - Low Priority
 - [ ] Revise script parse logic to allow more flexible script writing (use two differnet variables to caculate the result of a expression) - Low Priority
 - [ ] Revise Load & Save game - Middle Priority
@@ -33,7 +34,7 @@
 
 ## How to play
 
-This branch contains 2 different part, which runs in fact not individually.
+This branch contains 2 different parts, which run in fact not individually.
 
 
 #### Backend
