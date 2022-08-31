@@ -55,7 +55,7 @@ stages:
           - ** Type "GG" **
         
         action: [none]
-      - keywords: [gg, giveup]
+      - keywords: [gg, giveup, good game]
         description: ""
         action: [
           gotox: "1.4"

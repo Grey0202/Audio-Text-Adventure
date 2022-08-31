@@ -5,7 +5,7 @@ import * as config from './config.js';
 import * as tpd from './templates.js';
 
 
-export function parseAduioFile(speechStream, language = 'cn') {
+export function parseAduioFile(speechStream, language = 'en') {
     const speechToText = new SpeechToTextV1({
         authenticator: new auth.IamAuthenticator({
             apikey: config.apikey,

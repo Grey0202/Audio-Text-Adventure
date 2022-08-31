@@ -1,24 +1,38 @@
 import * as tpd from "./templates.js"
+import {outputObj} from "./playFunc.js"
 
 var script = undefined
 var storyMode = false
 var APcombined = false
 var speechToTextEnabled = false
+var language = "en"
 
-function displayCustom(stage, unprocStory, player, vars) {
+// class ScriptFunc {
+//     title: string = tpd.emptyChapter;
+//     constants: string[] = [];
+//     variables: string[] = [];
+
+
+// }
+
+/**
+ * 
+ * @param {*} stage 
+ * @param {*} unprocStory 
+ * @param {*} player 
+ * @param {*} vars 
+ * @param {*} output 
+ * @returns Return an modified outputObj, can just replace previous output.
+ */
+function displayCustom(stage, unprocStory, player, vars, output = new outputObj()) {
 
     // Debug
     // console.log("[DEBUG] story ::::: in displayCustom func")
     // console.log("stage\n", stage)
     // console.log("\n\n\ndefmsg\n", unprocStory)
     // console.log('\n\n\n\n\ndebug\n',stage,unprocStory)
-    var output = tpd.outputTemplate
-    // var output = {
-    //     "title": tpd.emptyChapter,
-    //     "content": tpd.emptyStoryMsg,
-    //     "error": ""
-    // }
 
+    // var output = tpd.outputTemplate
     if (stage != undefined) {
         // unprocStory = stage.story
         unprocStory = unprocStory.replace(tpd.senderTemplate, "@" + player)
@@ -33,11 +47,11 @@ function displayCustom(stage, unprocStory, player, vars) {
             unprocStory = unprocStory.replace("@" + key, script.constants[key])
         })
 
-        // output.title = stage.chapter
-        // output.content = unprocStory
+        output.title = stage.chapter;
+        output.content.push(unprocStory);
 
-        output = output.replace(tpd.emptyChapter, stage.chapter)
-            .replace(tpd.emptyStoryMsg, unprocStory)
+        // output = output.replace(tpd.emptyChapter, stage.chapter)
+        //     .replace(tpd.emptyStoryMsg, unprocStory)
     }
     return output
 }
@@ -61,6 +75,14 @@ function chapterMatch(source, target) {
 }
 
 // Proceed the story according to the input.
+/**
+ * 
+ * @param {*} stage 
+ * @param {*} input user input, from text or voice
+ * @param {*} chapter stirng, the chapter of the stage
+ * @param {*} vars the variables array, every time call this function is using the variables keeped in the profile, which is permanent.
+ * @returns  return a output object
+ */
 function proceed(stage, input, chapter, vars) {
     var defaults = script.defaults
     var dynamics = script.dynamics
@@ -70,7 +92,11 @@ function proceed(stage, input, chapter, vars) {
     var process = function (choice) {
         var ret = {
             chapter: chapter,
-            output: [],
+            output: {
+                "title": tpd.emptyChapter,
+                "content": [],
+                "error": ""
+            },
             variables: vars
         }
         // Play Rounds: rounds
@@ -82,25 +108,29 @@ function proceed(stage, input, chapter, vars) {
         // Caclulate the Dynamic Variables
         // 动态执行代码
         var evalEx = function (cmd, savechg = false) {
-            var cmdLines = []
+            var cmdLines = [];
             // This part include the variables initialization, it needs to go through all the variables.
             // TODO: Revise the variable declaration and save strategy.
             variables.forEach(element => {
-                cmdLines.push("var " + element + " = " + JSON.stringify(ret.variables[element]))
+                cmdLines.push(String("var " + element + " = " + JSON.stringify(ret.variables[element])))
             })
             // Constants caclulation.
             Object.keys(script.constants).forEach((key) => {
-                cmdLines.push("var " + key + " = " + JSON.stringify(script.constants[key]))
+                cmdLines.push(String("var " + key + " = " + JSON.stringify(script.constants[key])))
             })
             cmdLines.push(cmd)
             var cmdCode = cmdLines.join(";\n")
             // console.log("\n[evalex begin]\n", cmdCode, "\n[evalex end]\n")
+
+            // Hint: this eval will make variables change just in this scope, vars will not be changed.
             var evalRet = eval(cmdCode)
+            console.log("[DEBUG] evalRet:\n",evalRet)
+
             // Save var changes to the var array.
             if (savechg) {
                 variables.forEach(element => {
                     if (element != undefined && element != "") {
-                        vars[element] = eval(element)
+                        vars[element] = eval(element);
                     }
                 })
             }
@@ -114,14 +144,17 @@ function proceed(stage, input, chapter, vars) {
             console.log("\n\naction[deubg]::\n", choice)
             // Revised action yaml format, need to remove the if statement after all the scripts are updated.
             if (script.APcombined) {
-                console.log("\n####   APcombined Mode is on. \n")
+                console.log("\n[INFO] APcombined Mode is on. \n")
                 if (typeof choice.action[0] === "string") {
                     if (choice.action != "none") {
-                        console.error("Unprocessed [string] action type")
+                        console.error("Unprocessed <string> action type")
                     }
                     else {
                         choice.action = []
                     }
+                }
+                if (choice.description != "") {
+                    ret.output.content.push(choice.description)
                 }
                 // console.log("\n[debug] action :\n", choice.action)
                 var actionArray = choice.action
@@ -172,7 +205,7 @@ function proceed(stage, input, chapter, vars) {
                         ret.variables = {}
                     } else {
                         // console.log("[Debug] choice action exception, action: ", action)
-                        ret.output.push(tpd.gameTreeCrashErr)
+                        ret.output.error = tpd.gameTreeCrashErr
                     }
 
                 });
@@ -334,6 +367,7 @@ function proceed(stage, input, chapter, vars) {
 
 // Main function.
 export function play(input, profile, scriptObj) {
+    // Initialize the game according to the script and profile.
     script = scriptObj
     // console.log("[DEBUG] Profile when loading:",profile)
     var chapter = profile.chapter
@@ -342,20 +376,18 @@ export function play(input, profile, scriptObj) {
     APcombined = scriptObj.APcombined
     // console.log("Player:", player, "CurChapter:", chapter, "Input:", input)
     var chapterAfter = chapter
-    let outputText = []
     // TODO, change to Json format output.
-    // let outputMap = {
-    //     "title": "",
-    //     "content": [],
-    //     "error": ""
-    // }
+    var outputMap = new outputObj(tpd.emptyChapter,[],[],input)
+
     var stage = script.stages[chapter]
     var chapterStory = ""
+
     input = String(input).toLowerCase().trim()
     if (input == "") {
         // Show the Plot of Play
         chapterStory = (stage == undefined ? tpd.emptyStoryMsg : stage.story);
-        outputText.push(displayCustom(stage, chapterStory, player, vars))
+        outputMap = displayCustom(stage, chapterStory, player, vars, outputMap)
+        // outputText.push(displayCustom(stage, chapterStory, player, vars))
 
     } else {
         // Process the input
@@ -365,20 +397,23 @@ export function play(input, profile, scriptObj) {
         vars = result.variables
         var stageToShow = result.chapter == chapter ? stage : script.stages[result.chapter]
         // Handle the output
+        //! TDDO: Output should first include the desciption of the choice, then the story of the chapter.
         if (result.output.length > 0) {
-            outputText.push(displayCustom(stage, result.output.join('\n'), player, vars))
+            console.log("[IMPORTANT] Output: Using DisplayCustom 1")
+            outputMap = displayCustom(stage, result.output.join('\n'), player, vars,outputMap);
         }
         if (result.output.length == 0 || result.chapter != chapter) {
+            console.log("[IMPORTANT] Output: Using DisplayCustom 2")
             chapterStory = (stageToShow == undefined ? tpd.emptyStoryMsg : stageToShow.story);
-            outputText.push(displayCustom(stageToShow, chapterStory, player, vars))
+            outputMap = displayCustom(stageToShow, chapterStory, player, vars, outputMap)
         }
     }
-
+    outputMap.content.join('\n');
     return {
         chapter: chapterAfter,
-        output: outputText.join('\n'),
+        output: outputMap,
         variables: vars
     }
 }
 
-// export { play }
+export default play 

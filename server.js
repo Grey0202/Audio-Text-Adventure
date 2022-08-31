@@ -1,14 +1,16 @@
 import { loadScript } from './script_loader.js'
 import * as save from './save_offline.js'
-import { play } from './play.js'
+import play from './play.js'
 import fs from 'fs'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import * as sao from "./ibmSTT.js" // Sound Audio Oupter
 import * as tpd from "./templates.js"
+import {outputObj} from "./playFunc.js"
 import { tmpdir } from 'os'
 
+// var output  = new outputObj()
 const app = express()
 // local variables
 const scriptPath = "./scripts/"
@@ -31,15 +33,17 @@ function gameInputHandler(input) {
 	console.log("\n[INFO] Input:", input);
 	profile.inputs.push(input)
 	save.saveToDisk(profileFileName, profile)
+
 	// Call main function.
 	scene = play(input, profile, script)
+	
 	// Save the scene
 	profile.chapter = scene.chapter
 	profile.variables = scene.variables
 	save.saveToDisk(profileFileName, profile)
 
 	// console.log("[Debug] Finish Input Handler")
-	return {content:scene.output, input_text:input}
+	return scene.output.jsonFormat()
 }
 
 // TODO: move to stt file.
@@ -97,7 +101,8 @@ function getScriptList() {
 	})
 }
 
-var scriptName = "harrypotter.yaml"
+var scriptName = "DragonRaja.yaml"
+var APcombined = false
 
 // Todo: return scriptList to front end
 // while (true) {
@@ -182,7 +187,7 @@ app.post("/audio", rawParser, function (req, res) {
 		voiceInputHandler(req).
 			then(result => {
 				console.log("[DEBUG] Audio RES will be sent:\n", result);
-				res.send(JSON.stringify(result));
+				res.send(result);
 			}).catch(err => {
 				console.log("[DEBUG] Audio ERR will be sent:\n", err);
 				res.send(err)
@@ -198,7 +203,7 @@ app.post("/game", jsonParser, function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*")
 	// console.log("\n[DEBUG] log body:\n", req.body);
 	var gameOut = gameInputHandler(req.body.input)
-	res.send(JSON.stringify(gameOut));
+	res.send(gameOut);
 })
 
 app.listen(port, () =>
