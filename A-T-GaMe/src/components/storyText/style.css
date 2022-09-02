@@ -1,0 +1,11 @@
+.textContainer{
+    /*background: dodgerblue;*/
+    white-space: pre-line;
+    border-left: 4px solid dodgerblue;
+    margin-left: 10px;
+    padding-left: 8px;
+}
+
+/*.textContainer :hover{*/
+/*    background: #ececec;*/
+/*}*/

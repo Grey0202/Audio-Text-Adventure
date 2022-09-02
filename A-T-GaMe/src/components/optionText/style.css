@@ -1,0 +1,35 @@
+.optionContainer{
+    /*background: #bdbdbd;*/
+    white-space: pre-line;
+    border-right: 4px solid green;
+    overflow: hidden;
+    margin-right: 10px;
+    padding-right: 8px;
+}
+
+.optionContainer .question{
+    width: 400px;
+    float: right;
+    /*text-align: right;*/
+}
+
+.optionContainer .options{
+    width: 400px;
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*background: bisque;*/
+    clear: both;
+    float: right;
+}
+
+.options p span{
+    display: inline-block;
+    background: goldenrod;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 10px;
+    color: white;
+}

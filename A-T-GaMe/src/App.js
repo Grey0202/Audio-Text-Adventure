@@ -2,9 +2,14 @@ import './App.css';
 import axios from 'axios';
 import qs from 'qs';
 import { Input, Button } from 'antd';
-import { useEffect, useState, Component } from 'react';
+import { useEffect, useState, Component, useMemo } from 'react';
 import AudioAnalyser from "react-audio-analyser";
 import Background from '../src/background.jpg';
+import StoryText from "./components/storyText/StoryText";
+import OptionText from "./components/optionText/optionText";
+
+const CONTENT = 0;
+const OPTION = 1;
 
 function App() {
   const [context, setContext] = useState(['']);
@@ -14,6 +19,49 @@ function App() {
 
   const gameUrl = 'http://127.0.0.1:1890/game';
   const aduioPostUrl = "http://127.0.0.1:1890/audio";
+
+  const processedContext = useMemo(() => {
+    let cur = {
+      type: -1,
+      content: []
+    };
+    const resetCur = (cur) => {
+      cur = {};
+      cur.type = -1;
+      cur.content = [];
+      return cur;
+    }
+
+    let processed = [];
+
+    let len = allContext.length
+    let i = 0;
+    while (i < len) {
+      while (i < len && allContext[i][0] === '>') {
+        cur.content.push(allContext[i]);
+        i++;
+      }
+      cur.type = CONTENT;
+      processed.push(cur);
+      console.log('cur---->', cur);
+      cur = resetCur(cur);
+
+      while (i < len && allContext[i][0] !== '>') {
+        cur.content.push(allContext[i]);
+        i++;
+      }
+      cur.type = OPTION;
+      processed.push(cur);
+      console.log('cur---->', cur);
+      cur = resetCur(cur);
+    }
+    console.log('processed---->', processed);
+    return processed;
+  }
+    ,
+    [allContext]
+  )
+
 
   // const getData = (input) => {
   //   // setAllContext(context.push(inputValue));
@@ -40,27 +88,31 @@ function App() {
   // };
 
   const getData = (input) => {
-    let str=allContext;
-    if(input === '重置') {
-      str=[''];
+    let strArr = allContext;
+    if (input === '重置') {
+      strArr = [];
     }
     return axios
       .post(gameUrl, {
         "input": input,
       })
       .then((res) => {
-        console.log(res.data,typeof res.data)
-        let data = res;
-        let content = data.data.content;
-        console.log('data', typeof data,data);
+        let content = res.data.content;
         content = content.split("\n");
 
         let titleTmp = res.data.title;
-        console.log('title', titleTmp);
         setTitle(titleTmp);
-        // console.log(str);
-        setAllContext(['*'+input, ...content]);
-      }).finally(()=>{
+        if (strArr.length === 0) {
+          strArr = strArr.concat([...content]).filter((val) => val !== '')
+          strArr.shift();
+          titleTmp = strArr[0].slice(5);
+          setTitle(titleTmp);
+          strArr.shift();
+        }
+        else strArr = strArr.concat([input, ...content]).filter((val) => val !== '');
+        console.log(strArr);
+        setAllContext(strArr);
+      }).finally(() => {
         setInputValue('');
       })
   };
@@ -85,7 +137,8 @@ function App() {
       console.log("succ pause", e)
     },
     stopCallback: (e) => {
-      let str=allContext;
+      let fd = new FormData();
+      let str = allContext;
 
       console.log("BLOB", e.size, e.type, e);
       setAudioSrc(window.URL.createObjectURL(e))
@@ -94,24 +147,14 @@ function App() {
         .post(aduioPostUrl, e)
         .then((res) => {
           let content = res.data.content;
-          let input = res.data.input;
-          console.log('data', typeof res.data);
           content = content.split("\n");
 
           let titleTmp = res.data.title;
-          console.log('title', titleTmp);
           setTitle(titleTmp);
-          // console.log(str);
-          setAllContext(['*'+input, ...content]);
-          
-          if(titleTmp[0] === '#') titleTmp = titleTmp.slice(5);
-          // data.shift();
-          setTitle(titleTmp);
-          
-          str=str.concat(['*'+res.data.input_text, ...content]);
+          str = str.concat(['*' + res.data.input_text, ...content]);
           // console.log(str);
           setAllContext(str);
-        }).finally(()=>{
+        }).finally(() => {
           setInputValue('');
         })
       console.log("succ stop", e)
@@ -124,7 +167,7 @@ function App() {
     }
   };
 
-  const componentDidMount = () => {}
+  const componentDidMount = () => { }
 
   const controlAudio = (status) => {
     setStatus(status);
@@ -140,55 +183,74 @@ function App() {
   };
 
   return (
-    <div 
+    <div
       className="App"
-      style={{
-        height: '100%',
-        position: 'absolute',
-        overflowX:'hidden',
-        backgroundImage: `url(${Background})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%',
-        backgroundAttachment: 'fixed',
-      }}
-      >
-      {/* <header className="App-header"> */}
-      <b>{title}</b><br></br>
+    // style={{
+    //   height: '100%',
+    //   // position: 'absolute',
+    //   backgroundSize: 'cover',
+    //   // overflowX: 'hidden',
+    //   backgroundImage: `url(${Background})`,
+    //   backgroundRepeat: 'no-repeat',
+    //   // backgroundSize: '100% 100%',
+    //   backgroundAttachment: 'fixed',
+    // }}
+    >
+      <div id="back">
+        <b style={{ fontSize: 30 }}>{title}</b>
         {
-          allContext.map((cur) => (
-            (cur[0] !== '*') ? (
-              <p>{cur}</p>
-            ) : (
-              <p 
-                style={{ 
-                  textAlign: 'right',
-                  backgroundColor: '#7DB9DE',
-                  padding: '0 20px 0 20px',
-                  margin: '5px',
-                }}>
-                  {cur}
-              </p>
-            )
-          ))
+          // allContext.map((cur) => (
+          //     <p>{cur}</p>
+          // ))
+          processedContext.map((cur) => {
+            return cur.type === CONTENT ? <StoryText textArr={cur.content}></StoryText> :
+              <OptionText textArr={cur.content}></OptionText>
+          })
         }
+        {/* <header className="App-header"> */}
+        {/* <b>{title}</b><br></br>
+      {
+        allContext.map((cur) => (
+          (cur[0] !== '*') ? (
+            <p>{cur}</p>
+          ) : (
+            <p
+              style={{
+                textAlign: 'right',
+                backgroundColor: '#7DB9DE',
+                padding: '0 20px 0 20px',
+                margin: '5px',
+              }}>
+              {cur}
+            </p>
+          )
+        ))
+      } */}
         {
           // <p style={{ textAlign: 'right' }}>{inputValue}</p>
         }
-        <Input 
-          id="input" 
-          style={{ margin: '5px' }} 
-          value={inputValue} 
-          onChange={onChange}
-          onPressEnter={() => { getData(inputValue) }}
+        <div style={{ overflow: 'hidden' }}>
+          <Button
+            type="primary"
+            style={{ margin: '5px', float: "right" }}
+            onClick={() => {
+              getData(inputValue)
+            }}
           >
-        </Input>
-        <Button 
-          type="primary" 
-          style={{ margin: '5px' }} 
-          onClick={() => { getData(inputValue) }}
-        >
-          Send
-        </Button>
+            Send
+          </Button>
+          <Input
+            id="input"
+            style={{ margin: '5px', float: "right" }}
+            value={inputValue}
+            onChange={onChange}
+            onPressEnter={() => {
+              getData(inputValue)
+            }}
+          >
+          </Input>
+
+        </div>
         <AudioAnalyser {...audioProps}>
           <div className="btn-box">
             {status !== "recording" &&
@@ -208,7 +270,8 @@ function App() {
           <option value="audio/mp3">audio/mp3</option>
           <option value="audio/mp4">audio/mp4</option>
         </select> */}
-      {/* </header> */}
+        {/* </header> */}
+      </div>
     </div>
   );
 }

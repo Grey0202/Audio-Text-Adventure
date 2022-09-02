@@ -31,24 +31,31 @@ To be finished...
 - [x] Add front-end page
 <!-- - [ ]  -->
 
-
 ## How to play
 
 This branch contains 2 different parts, which run in fact not individually.
 
+### Setup
 
-#### Backend
-```
+Download node.js LTS [here](https://nodejs.org/en/) and install it.
+
+#### Backend Setup
+
+In the backend, you can use the following commands to setup the project.
+
+``` bash
 npm install
 node server.js
 ```
-#### Frontend
-```
+
+#### Frontend Setup
+
+In A-T-GaMe folder, run `npm install` and `npm start` to start the frontend.
+
+``` bash
 npm install
 npm start
 ```
-
-
 
 
 
