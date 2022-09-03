@@ -8,10 +8,12 @@ stages:
   "1.1":
     chapter: The beginning of everything.
     story: |- 
+      > Script Copyright: The purpose of this script is just for study and present my dissertation, do not use this script for any other purpose.
+      >
+      >
       > Welcome to the A&T Adventure! You can use the Audio Button or Input Bar at the website.
       >
       > This script is based on the serializing fantasy novels - Dragon Raja written by Nan Jiang.
-      > (The purpose of this script is just for study and present my dissertation, do not use this script for any other purpose.)
       >
       > Now, you can tring to type [continue] or [go on] or press the record button to start the game.
       >
@@ -36,7 +38,6 @@ stages:
       > So you dicide to:
         - ** Connect Mouse to PC **
         - ** Use more aggressive astrategy, Upgrade Base to Level 3. **
-        - ** Type "GG" **
       >
       >
       >
@@ -53,7 +54,6 @@ stages:
          >
          >
           - ** Use more aggressive astrategy, Upgrade Base to Level 3. **
-          - ** Type "GG" **
         
         action: [none]
       - keywords: [gg, giveup, good game]
@@ -107,8 +107,8 @@ stages:
 
           ]
   "1.5":
-    chapter: The memory you treat like a trueasure must be with someone speical.
     # 某一段时光的温暖，一定是要与某一个参与其中，才会被人反反复复地铭记。
+    chapter: The memory you treat like a trueasure must be with someone speical.
     story: |- 
       > Now, She beaten you at your only specialty, with an overwhelming victory.
       > 
@@ -133,6 +133,7 @@ stages:
           [
 
           ]
+
 defaults:
   - conditions:
       chapter: "*"

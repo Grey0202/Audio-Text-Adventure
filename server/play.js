@@ -226,7 +226,7 @@ function proceed(stage, input, chapter, vars) {
                 }
                 // Add output to the output list.
                 if (choice.description != "") {
-                    ret.output.push(choice.description)
+                    ret.output.content.push(choice.description)
                 }
                 // 执行
                 actionSet.forEach((action, index) => {
@@ -274,7 +274,7 @@ function proceed(stage, input, chapter, vars) {
                         ret.variables = {}
                     } else {
                         console.log("choice action exception")
-                        ret.output.push(tpd.gameTreeCrashErr)
+                        ret.output.error = tpd.gameTreeCrashErr
                     }
                 })
                 return varChanged
@@ -392,17 +392,19 @@ export function play(input, profile, scriptObj) {
     } else {
         // Process the input
         var result = proceed(stage, input, chapter, vars)
+
+        console.log("[Important Debug] Result:", result)
         // Handle the result
         chapterAfter = result.chapter
         vars = result.variables
         var stageToShow = result.chapter == chapter ? stage : script.stages[result.chapter]
         // Handle the output
         //! TDDO: Output should first include the desciption of the choice, then the story of the chapter.
-        if (result.output.length > 0) {
+        if (result.output.content.length > 0) {
             console.log("[IMPORTANT] Output: Using DisplayCustom 1")
-            outputMap = displayCustom(stage, result.output.join('\n'), player, vars,outputMap);
+            outputMap = displayCustom(stage, result.output.content.join('\n'), player, vars, outputMap);
         }
-        if (result.output.length == 0 || result.chapter != chapter) {
+        if (result.output.content.length == 0 || result.chapter != chapter) {
             console.log("[IMPORTANT] Output: Using DisplayCustom 2")
             chapterStory = (stageToShow == undefined ? tpd.emptyStoryMsg : stageToShow.story);
             outputMap = displayCustom(stageToShow, chapterStory, player, vars, outputMap)

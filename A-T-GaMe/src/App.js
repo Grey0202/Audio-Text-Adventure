@@ -17,8 +17,8 @@ function App() {
   const [nowInput, setNowInput] = useState('');
   const [title, setTitle] = useState('');
 
-  const gameUrl = 'http://127.0.0.1:1890/game';
-  const aduioPostUrl = "http://127.0.0.1:1890/audio";
+  const gameUrl = 'http://localhost:1890/game';
+  const aduioPostUrl = "http://localhost:1890/audio";
 
   const processedContext = useMemo(() => {
     let cur = {
@@ -89,14 +89,15 @@ function App() {
 
   const getData = (input) => {
     let strArr = allContext;
-    if (input === '重置') {
-      strArr = [];
-    }
     return axios
       .post(gameUrl, {
         "input": input,
       })
       .then((res) => {
+        if (input === '重置') {
+          strArr = [];
+          console.log('重置response', res);
+        }
         let content = res.data.content;
         content = content.split("\n");
 
@@ -104,10 +105,6 @@ function App() {
         setTitle(titleTmp);
         if (strArr.length === 0) {
           strArr = strArr.concat([...content]).filter((val) => val !== '')
-          strArr.shift();
-          titleTmp = strArr[0].slice(5);
-          setTitle(titleTmp);
-          strArr.shift();
         }
         else strArr = strArr.concat([input, ...content]).filter((val) => val !== '');
         console.log(strArr);
@@ -146,12 +143,13 @@ function App() {
       axios
         .post(aduioPostUrl, e)
         .then((res) => {
+          // console.log("BLOB:",res);
           let content = res.data.content;
           content = content.split("\n");
 
           let titleTmp = res.data.title;
           setTitle(titleTmp);
-          str = str.concat(['*' + res.data.input_text, ...content]);
+          str = str.concat(['* ' + res.data.input, ...content]);
           // console.log(str);
           setAllContext(str);
         }).finally(() => {
@@ -183,6 +181,8 @@ function App() {
   };
 
   return (
+  <div>
+    <div style={{ position: 'fixed', width: '100%', fontSize: 30, background: '#00BFFF', color: '#D3D3D3'}}> {title} </div>
     <div
       className="App"
     // style={{
@@ -196,15 +196,15 @@ function App() {
     //   backgroundAttachment: 'fixed',
     // }}
     >
+
       <div id="back">
-        <b style={{ fontSize: 30 }}>{title}</b>
         {
           // allContext.map((cur) => (
           //     <p>{cur}</p>
           // ))
-          processedContext.map((cur) => {
+          processedContext.map((cur, idx) => {
             return cur.type === CONTENT ? <StoryText textArr={cur.content}></StoryText> :
-              <OptionText textArr={cur.content}></OptionText>
+              <OptionText textArr={cur.content} key = {idx}></OptionText>
           })
         }
         {/* <header className="App-header"> */}
@@ -272,6 +272,7 @@ function App() {
         </select> */}
         {/* </header> */}
       </div>
+    </div>
     </div>
   );
 }

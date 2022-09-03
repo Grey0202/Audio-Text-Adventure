@@ -7,16 +7,97 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import * as sao from "./ibmSTT.js" // Sound Audio Oupter
 import * as tpd from "./templates.js"
-import {outputObj} from "./playFunc.js"
+import { outputObj } from "./playFunc.js"
 import { tmpdir } from 'os'
 
 // var output  = new outputObj()
 const app = express()
+var script;
 // local variables
 const scriptPath = "./scripts/"
-const hostname = '127.0.0.1'
+const hostname = "localhost"
 const port = 1890
 const speechToTextEnabled = true
+
+var scriptList = []
+
+// console.log("read",readDir)
+function getScriptList(scriptPath) {
+	return new Promise((resolve, reject) => {
+		let scripts = []
+		let readDir = fs.readdir(scriptPath, (err, files) => {
+			if (err) {
+				console.log("[Error]", err)
+				reject(err)
+			}
+			else {
+				files.forEach(file => {
+					if (file.endsWith(".yaml")) {
+						console.log("Script find :", file)
+						scripts.push(file)
+					}
+				})
+				if (scripts.length == 0) {
+					reject("Failed to read script folder or No script in the folder!")
+				}
+				else {
+					resolve(scripts)
+				}
+			}
+		})
+	})
+};
+
+
+var scriptList = getScriptList(scriptPath)
+console.log(scriptList)
+
+// var scriptName = "DragonRaja.yaml"
+var scriptName = "harrypotter.yaml"
+var APcombined = false
+
+// Todo: return scriptList to front end
+// while (true) {
+// var scriptUse = "DragonRaja.yaml"
+
+//
+function tryLoadScript(scriptName) {
+	return new Promise((resolve, reject) => {
+		if (!scriptName) reject("No script")
+
+		let result = loadScript(scriptPath + scriptName)
+		if (!result) {
+			console.error("Failed to load script!")
+			reject("Failed to load script!")
+		}
+		else {
+			console.log("Loaded script: " + scriptName)
+			resolve(result)
+			// return result
+		}
+	}).then((result) => { return result; })
+		.catch((err) => { return err; })
+}
+
+//
+
+// else break
+// }
+var script = await tryLoadScript(scriptName).then((result) => { return result; }).catch((err) => { return err; })
+console.log("Script: " + script)
+var profileFileName = scriptName + ".save"
+var profile = save.loadFromDisk(scriptPath + profileFileName)
+
+// TODO: change default chapter
+if (!profile) {
+	profile = {
+		player: tpd.defaultPlayerName,
+		chapter: tpd.defaultChapter,
+		variables: {},
+		inputs: []
+	}
+	save.saveToDisk(profileFileName, profile)
+}
 
 // Both text and voice input handler
 // Return a json object
@@ -29,14 +110,14 @@ function gameInputHandler(input) {
 	if (input == "exit" || input == "quit" || input == "退出") {
 		return -1
 	}
-	
+
 	console.log("\n[INFO] Input:", input);
 	profile.inputs.push(input)
 	save.saveToDisk(profileFileName, profile)
 
 	// Call main function.
 	scene = play(input, profile, script)
-	
+
 	// Save the scene
 	profile.chapter = scene.chapter
 	profile.variables = scene.variables
@@ -66,85 +147,6 @@ async function voiceInputHandler(speechStream) {
 
 	// [Debug] file
 	// vfile = "./audio-file.flac"
-}
-
-var scriptList = []
-var readDir = fs.readdirSync(scriptPath);
-
-function getScriptList() {
-	return new Promise((resolve, reject) => {
-		fs.readdirSync(scriptPath, (err, readDir) => {
-			if (err) {
-				console.error("Failed to read script folder!")
-				reject("Failed to read script folder!")
-			}
-			else {
-				console.log("Script list: " + readDir)
-				resolve(readDir)
-			}
-		}).then((readDir) => {
-			var scriptList = []
-			for (var i in readDir) {
-				if (readDir[i].endsWith(".yaml")) {
-					console.log(readDir[i])
-					scriptList.push(readDir[i])
-				}
-			}
-			if(scriptList.length > 0){
-				resolve(scriptList)
-				return scriptList
-			}
-			else{
-				reject("No script found!")
-			}
-		})
-	})
-}
-
-var scriptName = "DragonRaja.yaml"
-var APcombined = false
-
-// Todo: return scriptList to front end
-// while (true) {
-// var scriptUse = "DragonRaja.yaml"
-
-//
-function tryLoadScript(scriptName) {
-	return new Promise((resolve, reject) => {
-		if (!scriptName) reject("No script")
-
-		let result = loadScript(scriptPath + scriptName)
-		if (!result) {
-			console.error("Failed to load script!")
-			reject("Failed to load script!")
-		}
-		else {
-			console.log("Loaded script: " + scriptName)
-			resolve(result)
-			// return result
-		}
-	}).then((result) => {return result;})
-	.catch((err) => {return err;})
-}
-
-//
-
-// else break
-// }
-var script = await tryLoadScript(scriptName).then((result) => {return result;}).catch((err) => {return err;})
-console.log("Script: " + script)
-var profileFileName = scriptName + ".save"
-var profile = save.loadFromDisk(scriptPath + profileFileName)
-
-// TODO: change default chapter
-if (!profile) {
-	profile = {
-		player: tpd.defaultPlayerName,
-		chapter: tpd.defaultChapter,
-		variables: {},
-		inputs: []
-	}
-	save.saveToDisk(profileFileName, profile)
 }
 
 
@@ -197,6 +199,14 @@ app.post("/audio", rawParser, function (req, res) {
 		return res.send("Speech to text is disabled")
 	}
 })
+
+// app.get("/game", jsonParser, function (req, res) {
+// 	console.log("[DEBUG] Reqest Header:\n", req.headers);
+// 	res.header("Access-Control-Allow-Origin", "*")
+// 	console.log("\n[DEBUG] log body:\n", req.body);
+// 	// var gameOut = gameInputHandler(req.body.input)
+// 	// res.send(gameOut);
+// })
 
 app.post("/game", jsonParser, function (req, res) {
 	// console.log("[DEBUG] Reqest Header:\n", req.headers);

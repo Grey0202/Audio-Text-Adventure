@@ -37,7 +37,7 @@ This branch contains 2 different parts, which run in fact not individually.
 
 ### Setup
 
-Download node.js LTS [here](https://nodejs.org/en/) and install it.
+Download node.js LTS [here](https://nodejs.org/) and install it.
 
 #### Backend Setup
 
