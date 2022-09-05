@@ -7,14 +7,14 @@ const options = [
 ]
 
 const Myselect = () => (
-  <Select options={options} onChange={()=>{console.log("aaaa")}} />
+  <Select style={{float:'left',background: 'LightGrey'}} options={options} defaultInputValue={'Dragon Raja - en'} onChange={()=>{console.log("aaaa")}} />
 )
 
 function Scriptselect(script="") {
   return (
     <div className="App">
-      <p style={{color: '#C47278', fontWeight: 'bold', background: 'LightGrey',}}>Change Script:</p>
-      <Myselect value={'dragonraja.yaml'}/>
+      <p style={{color: '#C47278',fontSize:'17px', fontWeight: 'bold',}}>Change Script:</p>
+      <Myselect style={{float:'left'}} value={'dragonraja.yaml'}/>
     </div>
   );
 }

@@ -51,8 +51,8 @@ function getScriptList(scriptPath) {
 var scriptList = getScriptList(scriptPath)
 console.log(scriptList)
 
-// var scriptName = "DragonRaja.yaml"
-var scriptName = "harrypotter.yaml"
+var scriptName = "DragonRaja.yaml"
+// var scriptName = "harrypotter.yaml"
 var APcombined = false
 
 // Todo: return scriptList to front end
