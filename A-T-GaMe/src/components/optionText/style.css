@@ -8,13 +8,13 @@
 }
 
 .optionContainer .question{
-    width: 400px;
+    width: 70%;
     float: right;
     /*text-align: right;*/
 }
 
 .optionContainer .options{
-    width: 400px;
+    width: 70%;
     /*position: absolute;*/
     /*right: 0;*/
     /*background: bisque;*/

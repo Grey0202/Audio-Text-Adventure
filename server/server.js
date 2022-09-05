@@ -8,7 +8,6 @@ import cors from 'cors'
 import * as sao from "./ibmSTT.js" // Sound Audio Oupter
 import * as tpd from "./templates.js"
 import { outputObj } from "./playFunc.js"
-import { tmpdir } from 'os'
 
 // var output  = new outputObj()
 const app = express()
@@ -62,6 +61,7 @@ var APcombined = false
 
 //
 function tryLoadScript(scriptName) {
+	console.log("[TryLoadScript] scriptName:", scriptName)
 	return new Promise((resolve, reject) => {
 		if (!scriptName) reject("No script")
 
@@ -87,6 +87,11 @@ var script = await tryLoadScript(scriptName).then((result) => { return result; }
 console.log("Script: " + script)
 var profileFileName = scriptName + ".save"
 var profile = save.loadFromDisk(scriptPath + profileFileName)
+if (!profile) {
+	console.log("[IMPORTANT] Created a new profile.")
+} else {
+	console.log("\n[IMPORTANT] Profile Loaded.", scriptPath + profileFileName, "\n")
+}
 
 // TODO: change default chapter
 if (!profile) {
@@ -96,7 +101,7 @@ if (!profile) {
 		variables: {},
 		inputs: []
 	}
-	save.saveToDisk(profileFileName, profile)
+	save.saveToDisk(scriptPath + profileFileName, profile)
 }
 
 // Both text and voice input handler
@@ -113,7 +118,7 @@ function gameInputHandler(input) {
 
 	console.log("\n[INFO] Input:", input);
 	profile.inputs.push(input)
-	save.saveToDisk(profileFileName, profile)
+	save.saveToDisk(scriptPath + profileFileName, profile)
 
 	// Call main function.
 	scene = play(input, profile, script)
@@ -121,7 +126,7 @@ function gameInputHandler(input) {
 	// Save the scene
 	profile.chapter = scene.chapter
 	profile.variables = scene.variables
-	save.saveToDisk(profileFileName, profile)
+	save.saveToDisk(scriptPath + profileFileName, profile)
 
 	// console.log("[Debug] Finish Input Handler")
 	return scene.output.jsonFormat()
@@ -158,7 +163,9 @@ const rawParser = bodyParser.raw()
 // app.use(bodyParser.json())
 app.use(cors())
 
-app.options('/game', cors())
+// app.options('/game', cors())
+// app.options('/audio', cors())
+// app.options('/changeScript', cors())
 
 app.all('*', function (req, res, next) {
 	// res.header("Access-Control-Allow-Origin", "*");
@@ -211,9 +218,20 @@ app.post("/audio", rawParser, function (req, res) {
 app.post("/game", jsonParser, function (req, res) {
 	// console.log("[DEBUG] Reqest Header:\n", req.headers);
 	res.header("Access-Control-Allow-Origin", "*")
-	// console.log("\n[DEBUG] log body:\n", req.body);
+	console.log("\n[DEBUG] log body:\n", req.body);
 	var gameOut = gameInputHandler(req.body.input)
 	res.send(gameOut);
+})
+
+app.post("/changeScript", jsonParser, function (req, res) {
+	// res.header("Access-Control-Allow-Origin", "*")
+	// console.log("\n[DEBUG] log body:\n", req.body);
+	// var scrirptName = req.body.scriptname
+	// script = tryLoadScript(scrirptName+".yaml")
+	// var gameOut = gameInputHandler("")
+
+	res.send("");
+
 })
 
 app.listen(port, () =>

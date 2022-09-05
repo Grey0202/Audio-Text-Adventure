@@ -3,7 +3,7 @@ import './style.css'
 
 function StoryText(props) {
     let textArr = props.textArr;
-    console.log('props---->', props);
+    // console.log('[DEBUG] props---->', props);
 
     return (
         <div className={'textContainer'}>

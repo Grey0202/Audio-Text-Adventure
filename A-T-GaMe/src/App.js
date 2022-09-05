@@ -2,11 +2,13 @@ import './App.css';
 import axios from 'axios';
 import qs from 'qs';
 import { Input, Button } from 'antd';
-import { useEffect, useState, Component, useMemo } from 'react';
+import { useEffect, useState, Component, useMemo, CSSProperties } from 'react';
 import AudioAnalyser from "react-audio-analyser";
+import Select, { components, GroupHeadingProps } from 'react-select';
 import Background from '../src/background.jpg';
 import StoryText from "./components/storyText/StoryText";
 import OptionText from "./components/optionText/optionText";
+import Scriptselect from './components/scriptSelect';
 
 const CONTENT = 0;
 const OPTION = 1;
@@ -18,6 +20,7 @@ function App() {
   const [title, setTitle] = useState('');
 
   const gameUrl = 'http://localhost:1890/game';
+  const changeScriptUrl = 'http://localhost:1890/changeScript';
   const aduioPostUrl = "http://localhost:1890/audio";
 
   const processedContext = useMemo(() => {
@@ -116,7 +119,8 @@ function App() {
 
   useEffect(() => {
     getData('');
-  }, [])
+    // choseScript('harrypotter');
+  }, []);
 
   const [status, setStatus] = useState();
   const [audioSrc, setAudioSrc] = useState();
@@ -134,7 +138,7 @@ function App() {
       console.log("succ pause", e)
     },
     stopCallback: (e) => {
-      let fd = new FormData();
+      // let fd = new FormData();
       let str = allContext;
 
       console.log("BLOB", e.size, e.type, e);
@@ -180,35 +184,63 @@ function App() {
     setInputValue(event.target.value);
   };
 
-  return (
-  <div>
-    <div style={{ position: 'fixed', width: '100%', fontSize: 30, background: '#00BFFF', color: '#D3D3D3'}}> {title} </div>
-    <div
-      className="App"
-    // style={{
-    //   height: '100%',
-    //   // position: 'absolute',
-    //   backgroundSize: 'cover',
-    //   // overflowX: 'hidden',
-    //   backgroundImage: `url(${Background})`,
-    //   backgroundRepeat: 'no-repeat',
-    //   // backgroundSize: '100% 100%',
-    //   backgroundAttachment: 'fixed',
-    // }}
-    >
+  const choseScript = (scriptName) => {
+    let strArr = allContext;
+    console.log('scriptname', scriptName);
+    return axios
+      .post(changeScriptUrl, {
+        "scriptname": scriptName,
+      })
+      .then((res) => {
+        console.log('res---->', res);
+        let content = res.data.content;
+        strArr = [];
+        strArr = strArr.concat([...content]).filter((val) => val !== '')
+        content = content.split("\n");
+        let titleTmp = res.data.title;
+        setTitle(titleTmp);
+        setAllContext(content);
+        setInputValue('');
+      })
+  };
+  var options;
 
-      <div id="back">
-        {
-          // allContext.map((cur) => (
-          //     <p>{cur}</p>
-          // ))
-          processedContext.map((cur, idx) => {
-            return cur.type === CONTENT ? <StoryText textArr={cur.content}></StoryText> :
-              <OptionText textArr={cur.content} key = {idx}></OptionText>
-          })
-        }
-        {/* <header className="App-header"> */}
-        {/* <b>{title}</b><br></br>
+  return (
+    <div>
+      <div style={{ position: 'fixed', width: '100%', fontSize: 30, background: '#00BFFF', color: '#D3D3D3' }}> {title} </div>
+
+      <div
+        className="App"
+        
+      // style={{
+      //   height: '100%',
+      //   // position: 'absolute',
+      //   backgroundSize: 'cover',
+      //   // overflowX: 'hidden',
+      //   backgroundImage: `url(${Background})`,
+      //   backgroundRepeat: 'no-repeat',
+      //   // backgroundSize: '100% 100%',
+      //   backgroundAttachment: 'fixed',
+      // }}
+      
+      >
+        <Scriptselect onChange={() => {
+           choseScript(options)
+          }}>
+          
+        </Scriptselect>
+        <div id="back">
+          {
+            // allContext.map((cur) => (
+            //     <p>{cur}</p>
+            // ))
+            processedContext.map((cur, idx) => {
+              return cur.type === CONTENT ? <StoryText textArr={cur.content}></StoryText> :
+                <OptionText textArr={cur.content} key={idx}></OptionText>
+            })
+          }
+          {/* <header className="App-header"> */}
+          {/* <b>{title}</b><br></br>
       {
         allContext.map((cur) => (
           (cur[0] !== '*') ? (
@@ -226,53 +258,54 @@ function App() {
           )
         ))
       } */}
-        {
-          // <p style={{ textAlign: 'right' }}>{inputValue}</p>
-        }
-        <div style={{ overflow: 'hidden' }}>
-          <Button
-            type="primary"
-            style={{ margin: '5px', float: "right" }}
-            onClick={() => {
-              getData(inputValue)
-            }}
-          >
-            Send
-          </Button>
-          <Input
-            id="input"
-            style={{ margin: '5px', float: "right" }}
-            value={inputValue}
-            onChange={onChange}
-            onPressEnter={() => {
-              getData(inputValue)
-            }}
-          >
-          </Input>
+          {
+            // <p style={{ textAlign: 'right' }}>{inputValue}</p>
+          }
+          <div style={{ overflow: 'hidden' }}>
+            <Button
+              type="primary"
+              style={{ margin: '5px', float: "right" }}
+              onClick={() => {
+                getData(inputValue)
+              }}
+            >
+              Send
+            </Button>
+            <Input
+              id="input"
+              style={{ margin: '5px', float: "right" }}
+              value={inputValue}
+              onChange={onChange}
+              onPressEnter={() => {
+                getData(inputValue)
+              }}
+            >
+            </Input>
 
-        </div>
-        <AudioAnalyser {...audioProps}>
-          <div className="btn-box">
-            {status !== "recording" &&
-              <button style={{ margin: '5px' }} className="iconfont icon-start"
-                onClick={() => controlAudio("recording")}>Voice Input</button>}
-            {status === "recording" &&
-              <button style={{ margin: '5px' }} className="iconfont icon-pause"
-                onClick={() => controlAudio("inactive")}>Stop</button>}
-            {/* <button style={{ margin: '5px' }} className="iconfont icon-stop"
-              onClick={() => controlAudio("inactive")}>停止</button> */}
           </div>
-        </AudioAnalyser>
-        {/* <p>选择输出格式</p>
+          <AudioAnalyser {...audioProps}>
+            <div className="btn-box">
+              {status !== "recording" &&
+                <button style={{ margin: '5px' }} className="iconfont icon-start"
+                  onClick={() => controlAudio("recording")}>Voice Input</button>}
+              {status === "recording" &&
+                <button style={{ margin: '5px' }} className="iconfont icon-pause"
+                  onClick={() => controlAudio("inactive")}>Stop</button>}
+              {/* <button style={{ margin: '5px' }} className="iconfont icon-stop"
+              onClick={() => controlAudio("inactive")}>停止</button> */}
+            </div>
+          </AudioAnalyser>
+          {/* <p>选择输出格式</p>
         <select name="" id="" onChange={(e) => changeScheme(e)} value={audioType}>
           <option value="audio/webm">audio/webm(default, safari does not support )</option>
           <option value="audio/wav">audio/wav</option>
           <option value="audio/mp3">audio/mp3</option>
           <option value="audio/mp4">audio/mp4</option>
         </select> */}
-        {/* </header> */}
+          {/* </header> */}
+        </div>
       </div>
-    </div>
+      
     </div>
   );
 }
