@@ -45,11 +45,16 @@ export function parseAduioFile(speechStream, language = 'en') {
             console.log("Aduio is in processing: onDataEvent");
             if (event.results) {
                 console.log(event.results)
-                //! Could have no alternatives? only once happend
-                var alternatives = event.results[0].alternatives;
-                // combine all the alternatives
-                for (var i = 0; i < alternatives.length; i++) {
-                    result += alternatives[i].transcript;
+                if (event.results.length == 0) {
+                    reject("[Error] No Vocie detected, please try again.");
+                }
+                else {
+                    //! Could have no alternatives? only once happend
+                    var alternatives = event.results[0].alternatives;
+                    // combine all the alternatives
+                    for (var i = 0; i < alternatives.length; i++) {
+                        result += alternatives[i].transcript;
+                    }
                 }
             }
             // console.log("\n[Debug] Alternatives: ", result);
