@@ -50,8 +50,9 @@ function getScriptList(scriptPath) {
 
 var scriptList = getScriptList(scriptPath)
 console.log(scriptList)
-
+var profile;
 var scriptName = "DragonRaja.yaml"
+var profileFileName = scriptName + ".save"
 // var scriptName = "harrypotter.yaml"
 var APcombined = false
 
@@ -85,24 +86,28 @@ function tryLoadScript(scriptName) {
 // }
 var script = await tryLoadScript(scriptName).then((result) => { return result; }).catch((err) => { return err; })
 console.log("Script: " + script)
-var profileFileName = scriptName + ".save"
-var profile = save.loadFromDisk(scriptPath + profileFileName)
-if (!profile) {
-	console.log("[IMPORTANT] Created a new profile.")
-} else {
-	console.log("\n[IMPORTANT] Profile Loaded.", scriptPath + profileFileName, "\n")
-}
+
 
 // TODO: change default chapter
-if (!profile) {
-	profile = {
-		player: tpd.defaultPlayerName,
-		chapter: tpd.defaultChapter,
-		variables: {},
-		inputs: []
+function getProfile(scriptName, isReset = false){
+	profileFileName = scriptName + ".save"
+	let profile = save.loadFromDisk(scriptPath + profileFileName)
+	if (!profile) {
+		console.log("[IMPORTANT] Creating a new profile.")
+		profile = {
+			player: tpd.defaultPlayerName,
+			chapter: tpd.defaultChapter,
+			variables: {},
+			inputs: []
+		}
+		save.saveToDisk(scriptPath + profileFileName, profile)
+	} else {
+		console.log("\n[IMPORTANT] Profile Loaded.", scriptPath + profileFileName, "\n")
 	}
-	save.saveToDisk(scriptPath + profileFileName, profile)
+	return profile
 }
+
+profile = getProfile(scriptName)
 
 // Both text and voice input handler
 // Return a json object
@@ -224,14 +229,27 @@ app.post("/game", jsonParser, function (req, res) {
 })
 
 app.post("/changeScript", jsonParser, function (req, res) {
-	// res.header("Access-Control-Allow-Origin", "*")
-	// console.log("\n[DEBUG] log body:\n", req.body);
-	// var scrirptName = req.body.scriptname
-	// script = tryLoadScript(scrirptName+".yaml")
-	// var gameOut = gameInputHandler("")
+	res.header("Access-Control-Allow-Origin", "*")
+	console.log("\n[DEBUG] log body:\n", req.body);
+	if(profile) {
+		save.saveToDisk(scriptPath + profileFileName, profile)
+	}
 
-	res.send("");
+	scriptName = req.body.scriptname
+	profileFileName = scriptName + ".save"
 
+	let gameOut;
+
+	tryLoadScript(scriptName).then(result => {
+		script = result;
+		profile = getProfile(scriptName, true)
+		// console.log("[DEBUG]change script1", profile)
+		scene = play("", profile, script)
+		// console.log("[DEBUG]change script1", scriptName,script)
+		gameOut = gameInputHandler("")
+
+		res.send(gameOut);
+	})
 })
 
 app.listen(port, () =>

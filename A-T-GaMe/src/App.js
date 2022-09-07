@@ -1,10 +1,10 @@
 import './App.css';
 import axios from 'axios';
 import qs from 'qs';
-import { Input, Button } from 'antd';
+import { Input, Button, Select } from 'antd';
 import { useEffect, useState, Component, useMemo, CSSProperties } from 'react';
 import AudioAnalyser from "react-audio-analyser";
-import Select, { components, GroupHeadingProps } from 'react-select';
+// import Select, { components, GroupHeadingProps } from 'react-select';
 import Background from '../src/background.jpg';
 import StoryText from "./components/storyText/StoryText";
 import OptionText from "./components/optionText/optionText";
@@ -97,7 +97,7 @@ function App() {
         "input": input,
       })
       .then((res) => {
-        if (input === '重置') {
+        if (input === '重置' || input === 'reset') {
           strArr = [];
           console.log('重置response', res);
         }
@@ -125,6 +125,14 @@ function App() {
   const [status, setStatus] = useState();
   const [audioSrc, setAudioSrc] = useState();
   const [audioType, setAudioType] = useState();
+  const scirptList = [
+    { value: 'dragonraja.yaml', label: 'Dragon Raja - en' },
+    { value: 'harrypotter-en.yaml', label: 'Harry Potter - en' },
+    { value: 'harrypotter.yaml', label: 'Harry Potter - zh' },
+  ]
+  const [option, setOption] = useState('');
+
+
   const audioProps = {
     audioType,
     // audioOptions: {sampleRate: 30000}, // 设置输出音频采样率
@@ -203,12 +211,17 @@ function App() {
         setInputValue('');
       })
   };
-  var options;
+
 
   return (
     <div>
-      <div style={{ position: 'fixed', width: '100%', fontSize: 30, background: '#00BFFF', color: '#D3D3D3' }}> {title} </div>
 
+      <div style={{padding:'0 0 0 3%', position: 'fixed', width: '100%', fontSize: 30,fontWeight:'bold', background: '#00BFFF', color: '#D3D3D3' }}> {title} </div>
+      <Select 
+          type="link"
+          
+          style={{ float:'right', position:'fixed' , margin: '1% 0 1% 78%' }}
+          options={scirptList} defaultValue='Dragon Raja - en' onChange={choseScript} />
       <div
         className="App"
         
@@ -222,14 +235,16 @@ function App() {
       //   // backgroundSize: '100% 100%',
       //   backgroundAttachment: 'fixed',
       // }}
-      
+      // style={{float:'left',background: 'LightGrey'}} 
       >
-        <Scriptselect onChange={() => {
+    
+
+        <div id="back">
+
+        {/* <Scriptselect onChange={() => {
            choseScript(options)
           }}>
-          
-        </Scriptselect>
-        <div id="back">
+        </Scriptselect> */}
           {
             // allContext.map((cur) => (
             //     <p>{cur}</p>
@@ -262,18 +277,10 @@ function App() {
             // <p style={{ textAlign: 'right' }}>{inputValue}</p>
           }
           <div style={{ overflow: 'hidden' }}>
-            <Button
-              type="primary"
-              style={{ margin: '5px', float: "right" }}
-              onClick={() => {
-                getData(inputValue)
-              }}
-            >
-              Send
-            </Button>
             <Input
               id="input"
-              style={{ margin: '5px', float: "right" }}
+              
+              style={{ width:'300px', margin: '5px', float:'left' }}
               value={inputValue}
               onChange={onChange}
               onPressEnter={() => {
@@ -281,6 +288,16 @@ function App() {
               }}
             >
             </Input>
+            <button
+              type="primary"
+              style={{ margin: '5px', float: "right" }}
+              onClick={() => {
+                getData(inputValue)
+              }}
+            >
+              Send
+            </button>
+
 
           </div>
           <AudioAnalyser {...audioProps}>

@@ -146,7 +146,10 @@ function proceed(stage, input, chapter, vars) {
             if (script.APcombined) {
                 console.log("\n[INFO] APcombined Mode is on. \n")
                 if (typeof choice.action[0] === "string") {
-                    if (choice.action != "none") {
+                    if (choice.action[0] == "reset") {
+                        choice.action = [{"reset": ""}];
+                    }
+                    else if (choice.action != "none") {
                         console.error("Unprocessed <string> action type")
                     }
                     else {
@@ -209,6 +212,7 @@ function proceed(stage, input, chapter, vars) {
                     }
 
                 });
+                
                 return varChanged
             }
             else {
@@ -296,6 +300,7 @@ function proceed(stage, input, chapter, vars) {
             console.warn(tpd.emptyDynamicsErr)
         }
         if (!found) {
+            console.log("important ret:",ret)
             return ret
         }
         // phase 1: Check if fit the dynamic conditions

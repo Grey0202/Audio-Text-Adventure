@@ -1,0 +1,127 @@
+title: HarryPotter - story by ErCong
+msgtype: markdown
+variables: [rounds, credit, study, love, health, qsnake]
+constants: {}
+stages:
+  "1.1":
+    chapter: The Boy Who Lived
+    story: |-
+      > CopyRight: This demo is a translate script from YiCongCao's MarkdownGame Script. Created for demonstration use. MIT lencense.
+      >
+      > Welcome back to the wizarding world. Almost ten years have passed since Mr. and Mrs. Dursley woke up to find their nephew on the front steps, and yet Privet Drive has barely changed. 
+      > A few clouds hung in the blue sky, the sun still rose over the tidy garden, ☀️ sunlight flooded their sitting room and only the photograph on the mantelpiece showed how much time had been lost. 
+      > The photo shows the big-headed doll riding a 🚴 bike, riding a 🎠 merry-go-round, and kissing his mother, their son Dudley who is clearly no longer a little baby. 
+      > There is no sign of another boy living in this house, 🙈.
+
+      Type "continue" to move forward to next plot. 
+      - ** continue **
+
+    choices:
+      - keywords: [continue, next]
+        description: ""
+        action: [goto, calc]
+        param: ["1.2", "health?7:7"]
+  "1.2":
+    chapter: The Vanishing Glass
+    story: |-
+      > Harry Potter still lives here, under the wardrobe in the stairwell, and at the moment he is 😪 sleeping, but not for long. His Aunt Petunia is screaming at him to get up.
+
+      Should Harry ⏰ get up immediately or 💤 continue sleeping in?
+      - ** get up immediately **
+      - ** continue sleeping **
+    choices:
+      - keywords: [get up, immediately]
+        description: |-
+          > Harry is woken up by his aunt tapping on his room door again. Harry hadn't slept well and had had many dreams, and although he wanted to get up, his tired body didn't want to listen...
+
+          It seems better to: 
+          - ** continue sleeping **
+        action: none
+      - keywords: [continue, sleep, sleeping, ignore]
+        description: ""
+        action: [goto]
+        param: ["1.3"]
+      - keywords: [hint]
+        description: |-
+          Tip: You can make the following choices: 
+          - Get up : Since Aunt Petunia is already waking you up, why not obey her?
+          - Stay in bed : Maybe there's nothing wrong with being a rebellious child.
+        action: [none]
+  "1.3":
+    chapter: The Vanishing Glass
+    story: |-
+      > Harry lay on his bed, still replaying the dream he had just had: it had been a good dream, with a flying motorbike, and it seemed that he had had the same dream before.
+      > "Are you up?" Aunt Petunia came to the door again.
+      > "Soon." Harry said.
+      > "Soon, then hurry up, I want you to watch 🍗 the smoked salted meat. Don't you dare try frying it up. I want Dudley's birthday to go smoothly."
+
+      if he should get up now?
+        - ** Get up now **
+        - ** Stay in bed **
+    choices:
+      - keywords: [get up, sleep]
+        description: ""
+        action: goto
+        param: "1.4"
+      - keywords: [continue, stay]
+        description: |-
+          > Dudley, who was obviously very happy to celebrate his birthday, deliberately jumped hard on the stairs, shaking the dust from the closet where Harry was sleeping.
+          > Harry's 🏥 health value is -1. It's time to get out of bed...
+          > Current health value: @health
+
+          Looks like there's only one option left: 
+          - **get up now**
+        action: [calc]
+        param: [health-1]
+      - keywords: [hint]
+        description: |-
+          Tip: You can make the following choices: 
+          - **Wake up**: Auntie Petunia has already woken you up twice, so it's not a good idea if you don't get up.
+          - **Stay in bed**: Maybe there's nothing wrong with being a rebellious child
+        action: none
+  "1.4":
+    chapter: The Vanishing Glass
+    story: |-
+      > We are working very hard to finish the story.
+      > Thank you very much for palying.
+
+      - ** Reset ** to start from the beginning.
+    choices: {}
+  "12.1":
+    chapter: Game Over
+    story: |-
+      > Due to 💊 serious injuries, Harry unfortunately collapsed early at 15 Privet Drive before going to 🏫 Hogwarts.
+      > Harry's family, reunited in heaven 👪
+      > Health value: @health
+
+      Please enter "reset" to start again 🌝
+      - **Reset**
+    choices: {}
+dynamics:
+  - conditions:
+      chapter: "1.*"
+      expression: health <= 0
+    action: goto
+    param: "12.1"
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man,]
+    action: none
+    description: |-
+      > Welcome to the demo script of audio vedio adventrue, where by typing in `actions` or `instructions` you can advance the plot and get help.
+  - conditions:
+      chapter: "*"
+      keywords: [hint]
+    action: none
+    description: "No Hints Here"
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start]
+    action: reset
+    description: "Reset"
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: "> I'm sorry, how about trying another spell?🌚🌝"
