@@ -12,7 +12,7 @@ To be finished...
 
 ### UpdatePlan (TODO List)
 
-- [ ] Add music generate AI funciton. - Mithgt be High priority.
+- [ ] Add music generate AI funciton. - Might be High priority.
 - [ ] Add a script editor - Low Priority
 - [ ] Revise script parse logic to allow more flexible script writing (use two differnet variables to caculate the result of a expression) - Low Priority
 - [ ] Revise Load & Save game - Middle Priority
