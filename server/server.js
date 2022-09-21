@@ -165,7 +165,7 @@ var scene = play("", profile, script)
 // Server Part
 const jsonParser = bodyParser.json()
 const rawParser = bodyParser.raw()
-// app.use(bodyParser.json())
+
 app.use(cors())
 
 // app.options('/game', cors())
@@ -187,7 +187,7 @@ app.post("/", function (req, res, next) {
 app.post("/audio", rawParser, function (req, res) {
 	console.log(req.headers);
 	res.header("Access-Control-Allow-Origin", "*")
-	//Get blob from request
+	// Get blob from request
 	var blob = req.body;
 	// blob.Buffer = Buffer.from(blob)
 	console.log("Buffer is", blob.Buffer)

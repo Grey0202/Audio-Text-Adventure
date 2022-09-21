@@ -2,7 +2,6 @@
 import * as tpd from "./templates.js";
 
 export function outputObj(title, content, error, input) {
-    this.title = tpd.emptyChapter;
     this.title = title;
     this.content = content;
     this.error = error;
