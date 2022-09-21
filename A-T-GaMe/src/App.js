@@ -220,7 +220,7 @@ function App() {
       <Select 
           type="link"
           
-          style={{ float:'right', position:'fixed' , margin: '1% 0 1% 78%' }}
+          style={{ float:'right', position:'fixed' , margin: '3% 0 1% 78%' }}
           options={scirptList} defaultValue='Dragon Raja - en' onChange={choseScript} />
       <div
         className="App"
